@@ -9,7 +9,7 @@ class QuantumCircuitBase(ABC):
     def __init__(self, n_qubits):
         self.n_qubits: int = n_qubits
         self.n_states: int = 2**n_qubits
-
+        self.statevector = None
     
     @abstractmethod
     def get_full_statevector(self) -> np.ndarray[np.complex128]:
@@ -30,11 +30,6 @@ class QuantumCircuitBase(ABC):
     def x(self, qubit) -> None:
         pass
 
-
-    @abstractmethod
-    def cx(self, control_qubit, target_qubit) -> None:
-        pass
-
     
     @abstractmethod
     def swap(self, qubit1, qubit2) -> None:        
@@ -45,7 +40,3 @@ class QuantumCircuitBase(ABC):
     def qft(self) -> None:
         pass
 
-    
-    @abstractmethod
-    def ghz(self) -> None:
-        pass

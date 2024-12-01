@@ -80,11 +80,6 @@ class QuantumCircuit_v1(QuantumCircuitBase):
 
 
     @profile
-    def cx(self, control_qubit, target_qubit):
-        pass
-
-
-    @profile
     def swap(self, qubit1, qubit2):        
         SWAP = np.eye(self.n_states)
 
@@ -114,15 +109,10 @@ class QuantumCircuit_v1(QuantumCircuitBase):
         for i in range(self.n_qubits // 2):
             self.swap(i, self.n_qubits-1-i)
 
-    @profile
-    def ghz(self):
-        pass
-
-
-
+@profile
 def main():
     # this main function is only used when profiling
-    qc = QuantumCircuit_v1(5)
+    qc = QuantumCircuit_v1(11)
     qc.qft()
 
     print(f"QFT RAN SUCCESSFULLY WITH {qc.n_qubits} QUBITS")
