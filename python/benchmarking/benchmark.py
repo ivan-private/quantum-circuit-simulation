@@ -3,7 +3,6 @@ sys.path.append('../src')
 
 import numpy as np
 import timeit
-#import datetime
 import argparse
 import json
 
@@ -18,28 +17,15 @@ qc_simulators_str = {QuantumCircuit_v1: "v1", QuantumCircuit_v2: "v2", QuantumCi
 
 timer = timeit.default_timer
 
-RESULT_DIR_PATH = "../results/benchmarks"
+RESULT_DIR_PATH = "../results"
 
 TIME_FILE_PATH = f"{RESULT_DIR_PATH}/time.csv"
 MEMORY_FILE_PATH = f"{RESULT_DIR_PATH}/memory.csv"
 
 RESULT_FILE_PATH = f"{RESULT_DIR_PATH}/benchmark_data.json"
 
-# TIME_CSV_HEADER = "id, QC_version, qubits, hadamards, time, time_limit\n"
-# MEMORY_CSV_HEADER = "id, t, t_max, objects\n"
+MAX_PERFORMANCE_RESULT_FILE_PATH = f"{RESULT_DIR_PATH}/benchmark_max_performance_data.json"
 
-
-# def write_time_data(file, id, QC_str, qubits, num_hadamard, time, time_limit):
-#     csv_line = f"{id}, {QC_str}, {qubits}, {num_hadamard}, {time}, {time_limit}\n"
-#     print(csv_line)
-#     file.write(csv_line)
-
-
-# def write_memory_data(file, id, memory_data):
-#     MAX = len(memory_data)
-#     for i, mem in enumerate(memory_data):
-#         csv_line = f"{id}, {i+1}, {MAX}, {mem}\n"
-#         file.write(csv_line)
 
 
 def run_qft(qc, memory_data):
@@ -77,26 +63,8 @@ def run_qft(qc, memory_data):
 """
 
 
-
-
-def run_benchmark(time_limit_seconds = 0.1):
+def run_hadamards_benchmark(time_limit_seconds = 0.1):
     N_QUBITS = [i for i in range(3, 100)]
-
-    #FILE_TIMESTAMP_STR = f"{datetime.datetime.now():%Y-%m-%d_%H:%M:%S}"
-
-    # TIME_FILE_PATH = f"{RESULT_DIR_PATH}/{FILE_TIMESTAMP_STR}_time.csv"
-    # MEMORY_FILE_PATH = f"{RESULT_DIR_PATH}/{FILE_TIMESTAMP_STR}_memory.csv"
-
-
-
-
-    # print(TIME_CSV_HEADER)
-    # time_file = open(TIME_FILE_PATH, "w+")
-    # time_file.write(TIME_CSV_HEADER)
-
-    # print(MEMORY_CSV_HEADER)
-    # memory_file = open(MEMORY_FILE_PATH, "w+")
-    # memory_file.write(MEMORY_CSV_HEADER)
 
     benchmark_data = {}
 
@@ -113,16 +81,14 @@ def run_benchmark(time_limit_seconds = 0.1):
 
             for num_hadamard in range(n+1): 
                 print(f"Hadamards: {num_hadamard}", end=",\t")
-                memory_data = []
                 
                 qc = QC(n)
-                
-                memory_data.append( len(qc.statevector) )
 
                 for i in range(num_hadamard):
                     qc.h(i)
-                    memory_data.append( len(qc.statevector) )
                 
+                memory_data = [len(qc.statevector)]
+
                 t_start = timer()
                 run_qft(qc, memory_data)
                 t_end = timer()
@@ -130,10 +96,6 @@ def run_benchmark(time_limit_seconds = 0.1):
                 time = t_end - t_start
 
                 print(f"Time: {time}")
-
-                #write_time_data(time_file, id, qc_simulators_str[QC], n, num_hadamard, time, time_limit_seconds)
-
-                #write_memory_data(memory_file, id, memory_data)
 
                 benchmark_data[id] = {
                     "QC_version": qc_simulators_str[QC],
@@ -152,16 +114,63 @@ def run_benchmark(time_limit_seconds = 0.1):
     with open(RESULT_FILE_PATH, "w+") as file:
         file.write(json.dumps(benchmark_data, indent=4))
 
-    # time_file.close()
-    # memory_file.close()
+
+def run_max_performance_benchmark(time_limit_seconds = 0.1):
+    N_QUBITS = [i for i in range(3, 100)]
+
+    benchmark_data = {}
+
+    id = 1
+    time_limit_exceeded = set()
+
+
+    for n in N_QUBITS:
+        qc = QuantumCircuit_v3(n)
+        
+        for i in range(qc.n_qubits):
+            qc.h(i)
+
+        memory_data = [len(qc.statevector)]
+
+        t_start = timer()
+        run_qft(qc, memory_data)
+        t_end = timer()
+
+        time = t_end - t_start
+
+        print(f"Qubits: {n},\tTime: {time}")
+
+        benchmark_data[id] = {
+            "QC_version": qc_simulators_str[QuantumCircuit_v3],
+            "qubits": n,
+            "hadamards": qc.n_qubits,
+            "time": time,
+            "time_limit": time_limit_seconds,
+            "statevector_objects_after_each_gate": memory_data
+        }
+        id += 1
+
+        if time > time_limit_seconds:
+            break
+
+    
+    with open(MAX_PERFORMANCE_RESULT_FILE_PATH, "w+") as file:
+        file.write(json.dumps(benchmark_data, indent=4))
 
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("-t", "--time_limit", type=float, default=0.1)
-    args = parser.parse_args()
+    parser.add_argument("-p", "--max_performance_benchmark", default=False, action="store_true")
 
-    run_benchmark(args.time_limit)
+    args = parser.parse_args()
+    time_limit = args.time_limit
+    max_performance_benchmark = args.max_performance_benchmark
+
+    if max_performance_benchmark:
+        run_max_performance_benchmark(time_limit)
+    else:
+        run_hadamards_benchmark(time_limit)
 
 
 
