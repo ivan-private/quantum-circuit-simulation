@@ -1,0 +1,141 @@
+Timer unit: 1e-06 s
+
+Total time: 0.694566 s
+File: ../src/quantum_circuit_v3.py
+Function: h at line 23
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    23                                               @profile
+    24                                               def h(self, qubit):
+    25        26         83.0      3.2      0.0          scale = 1 / np.sqrt(2)
+    26        26          3.0      0.1      0.0          new_states = {}
+    27                                           
+    28        26          2.0      0.1      0.0          mask = 1 << qubit
+    29                                                   
+    30    712727     121020.0      0.2     17.4          for state, amplitude in self.statevector.items():
+    31    712701      70135.0      0.1     10.1              adjoint_state = state ^ mask  # flips the target qubit
+    32                                           
+    33    712701      78039.0      0.1     11.2              if state in new_states or adjoint_state in new_states:
+    34    323583      21708.0      0.1      3.1                  continue
+    35                                           
+    36                                                       # Fetch the amplitude of the adjacent state, if it exists
+    37    389118      65530.0      0.2      9.4              adjoint_amplitude = self.statevector.get(adjoint_state, 0)
+    38                                           
+    39    389118      41867.0      0.1      6.0              if (state & mask) != 0:
+    40                                                           state, adjoint_state = adjoint_state, state
+    41                                                           amplitude, adjoint_amplitude = adjoint_amplitude, amplitude
+    42                                           
+    43    389118      69635.0      0.2     10.0              new_a0 = scale * (amplitude + adjoint_amplitude)
+    44    389118      65427.0      0.2      9.4              new_a1 = scale * (amplitude - adjoint_amplitude)
+    45                                                                   
+    46    389118      38243.0      0.1      5.5              if new_a0 != 0:
+    47    389118      40728.0      0.1      5.9                  new_states[state] = new_a0
+    48                                                       
+    49    389118      36783.0      0.1      5.3              if new_a1 != 0:
+    50    388095      41131.0      0.1      5.9                  new_states[adjoint_state] = new_a1
+    51                                                   
+    52        26       4232.0    162.8      0.6          self.statevector = new_states
+
+Total time: 1.25463 s
+File: ../src/quantum_circuit_v3.py
+Function: cp at line 55
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    55                                               @profile
+    56                                               def cp(self, angle, control_qubit, target_qubit):
+    57       120         21.0      0.2      0.0          control_mask = 1 << control_qubit
+    58       120         14.0      0.1      0.0          target_mask = 1 << target_qubit
+    59                                           
+    60       120        267.0      2.2      0.0          phase_factor = np.exp(1j * angle)
+    61                                           
+    62   4318330     591346.0      0.1     47.1          for state in self.statevector.keys():
+    63   4318210     491316.0      0.1     39.2              if (state & target_mask) and (state & control_mask):
+    64                                                           # both the target qubit and the control qubit is in state |1>
+    65   1048320     171661.0      0.2     13.7                  self.statevector[state] *= phase_factor
+
+Total time: 0 s
+File: ../src/quantum_circuit_v3.py
+Function: x at line 68
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    68                                               @profile
+    69                                               def x(self, qubit):
+    70                                                   new_states = {}
+    71                                                   mask = 1 << qubit
+    72                                                   for state in self.statevector.keys():
+    73                                                       new_state = state ^ mask # flips the target qubit
+    74                                                       new_states[new_state] = self.statevector[state]
+    75                                                       
+    76                                                   
+    77                                                   self.statevector = new_states
+
+Total time: 0.536671 s
+File: ../src/quantum_circuit_v3.py
+Function: swap at line 80
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    80                                               @profile
+    81                                               def swap(self, qubit1, qubit2):
+    82         8          1.0      0.1      0.0          new_states = {}
+    83                                           
+    84    516112      61244.0      0.1     11.4          for state in self.statevector.keys():
+    85    516104      62137.0      0.1     11.6              q1_value = (state >> qubit1) & 1
+    86    516104      52594.0      0.1      9.8              q2_value = (state >> qubit2) & 1
+    87                                           
+    88    516104      45033.0      0.1      8.4              if q1_value == q2_value:
+    89    258056      39102.0      0.2      7.3                  new_states[state] = self.statevector[state]
+    90    258056      17938.0      0.1      3.3                  continue
+    91                                           
+    92                                                       # swaps the two bits only if they are different
+    93    258048      40723.0      0.2      7.6              adjoint_state = state ^ ((1 << qubit1) | (1 << qubit2)) 
+    94                                                       
+    95    258048      31443.0      0.1      5.9              a0 = self.statevector[state]
+    96    258048      45881.0      0.2      8.5              a1 = self.statevector.get(adjoint_state, 0.0)
+    97                                           
+    98    258048      23700.0      0.1      4.4              a0, a1 = a1, a0
+    99                                           
+   100    258048      26310.0      0.1      4.9              if a0 != 0:
+   101    254976      31132.0      0.1      5.8                  new_states[state] = a0
+   102                                                       
+   103    258048      31978.0      0.1      6.0              if a1 != 0:
+   104    258048      25837.0      0.1      4.8                  new_states[adjoint_state] = a1
+   105                                           
+   106         8       1618.0    202.2      0.3          self.statevector = new_states
+
+Total time: 4.97478 s
+File: ../src/quantum_circuit_v3.py
+Function: qft at line 109
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+   109                                               @profile
+   110                                               def qft(self):
+   111        17          2.0      0.1      0.0          for i in range(self.n_qubits)[::-1]:
+   112        16    1272028.0  79501.8     25.6              self.h(i)
+   113       136         49.0      0.4      0.0              for j in range(i-1, -1, -1):
+   114       120        106.0      0.9      0.0                  angle = np.pi * 2**(j-i)
+   115       120    2676466.0  22303.9     53.8                  self.cp(angle, j, i)
+   116                                                   
+   117         9          2.0      0.2      0.0          for i in range(self.n_qubits // 2):
+   118         8    1026131.0 128266.4     20.6              self.swap(i, self.n_qubits-1-i)
+
+Total time: 4.97738 s
+File: ../src/quantum_circuit_v3.py
+Function: main at line 121
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+   121                                           @profile
+   122                                           def main():
+   123                                               # this main function is only used when profiling
+   124         1          4.0      4.0      0.0      qc = QuantumCircuit_v3(16)
+   125        11          1.0      0.1      0.0      for i in range(10):
+   126        10       2479.0    247.9      0.0          qc.h(i)
+   127         1    4974862.0    5e+06     99.9      qc.qft()
+   128                                           
+   129         1         36.0     36.0      0.0      print(f"QFT RAN SUCCESSFULLY WITH {qc.n_qubits} QUBITS")
+
