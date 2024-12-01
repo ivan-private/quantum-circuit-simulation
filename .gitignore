@@ -1,5 +1,14 @@
+.vscode
+
 # Python related
 __pycache__
+.pytest_cache
+
+# Build dir
+build
+
+# vcpkg local install of dependencies
+vcpkg_installed
 
 # Prerequisites
 *.d
