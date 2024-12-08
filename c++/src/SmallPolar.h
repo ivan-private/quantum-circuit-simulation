@@ -28,7 +28,7 @@ struct SmallPolar
     template<std::floating_point T>
     operator std::complex<T>() const
     {
-        return std::polar<T>(get_magnitude(), get_phase_radians());
+        return std::polar<T>(get_magnitude(), get_phase());
     }
 
 
@@ -52,6 +52,8 @@ struct SmallPolar
         uint16_t product_r = static_cast<uint16_t>(this->r) * static_cast<uint16_t>(other.r);
         uint8_t r = static_cast<uint8_t>(product_r / MAX_VAL_R);
 
+        // adds to theta even if r is 0
+        // could be good if r is small so it rounds to 0
         uint8_t theta = this->theta + other.theta;
 
         return SmallPolar<r_bits, theta_bits>(r, theta);
@@ -74,7 +76,7 @@ struct SmallPolar
 
 
     double 
-    get_phase_radians() const
+    get_phase() const
     {   
         // radians in the range [0, 2pi)
         return 2.0 * M_PI * (static_cast<double>(theta) / static_cast<double>(NUM_REPRESENTABLE_THETA));
@@ -93,7 +95,7 @@ struct SmallPolar
     operator << (std::ostream& os, const SmallPolar& x)
     {
         os  << "(" << static_cast<int>(x.r) << ", " << static_cast<int>(x.theta) << ") == (" 
-            << x.get_magnitude() << ", " << x.get_phase_degrees() << ")";
+            << x.get_magnitude() << ", " << x.get_phase() << ")";
         return os;
     }
 

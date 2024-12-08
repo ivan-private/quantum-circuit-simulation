@@ -14,17 +14,21 @@
 constexpr double PI = M_PI;
 constexpr double TWO_PI = 2.0 * M_PI;
 
-
-inline double phase_diff(double x, double y)
+double phase_diff(double phase1, double phase2)
 {
+    if (phase1 < 0.0)
+        phase1 += TWO_PI;
 
-    if (x < 0.0)
-        x += TWO_PI;
+    if (phase2 < 0.0)
+        phase2 += TWO_PI;
 
-    if (y < 0.0)
-        y += TWO_PI;
-    
-    return std::abs(x - y);
+    return std::min(
+        std::abs(phase1 - phase2),
+        std::min(
+            std::abs(phase1 + TWO_PI - phase2),
+            std::abs(phase2 + TWO_PI - phase1)
+        )
+    );
 }
 
 
@@ -228,7 +232,7 @@ TYPED_TEST(SmallPolarTest, GetPhase)
         ASSERT_DOUBLE_EQ(x.get_phase_degrees(), degrees) 
             << "degrees: " << degrees;
 
-        ASSERT_DOUBLE_EQ(x.get_phase_radians(), degrees_to_radians(degrees)) 
+        ASSERT_DOUBLE_EQ(x.get_phase(), degrees_to_radians(degrees)) 
             << "radians: " << degrees_to_radians(degrees);
         
         x.theta++;
@@ -261,11 +265,10 @@ TYPED_TEST(SmallPolarTest, CastingToComplexNumber)
 {
     using SmallPolarType = typename TestFixture::SmallPolarType;
 
-    const double EPSILON_VERY_CLOSE = 1e-6;
     const double theta_resolution = TWO_PI / double(SmallPolarType::NUM_REPRESENTABLE_THETA);
     const double r_resolution = 1.0 / double(SmallPolarType::MAX_VAL_R);
 
-    const double num_test_values = 4;
+    const double num_test_values = 16;
 
     SmallPolarType x;
     std::complex<double> x_complex;
@@ -280,14 +283,18 @@ TYPED_TEST(SmallPolarTest, CastingToComplexNumber)
             x = y; // conversion constructor
             x_complex = x;  
             
-            EXPECT_NEAR(std::abs(x_complex), std::abs(y), r_resolution) 
-                << "input: (r, theta) = (" << r << ", " << theta << ")\n"
-                << "y = (r, theta) = (" << std::abs(y) << ", " << std::arg(y) << ")";
+            ASSERT_NEAR(std::abs(x_complex), std::abs(y), r_resolution) 
+                << "expected r = " << r << "\n"
+                << "actual r = " << std::abs(x_complex)
+                << "r tol = " << r_resolution;
 
 
-            EXPECT_LE(phase_diff(std::arg(x_complex), std::arg(y)), theta_resolution) 
-                << "input: (r, theta) = (" << r << ", " << theta << ")\n"
-                << "y = (r, theta) = (" << std::abs(y) << ", " << std::arg(y) << ")";
+            ASSERT_LE(phase_diff(std::arg(x_complex), std::arg(y)), theta_resolution)
+                << "expected theta = " << radians_to_degrees(theta) << "\n"
+                << "actual theta = " << radians_to_degrees(std::arg(x_complex)) << "\n"
+                << "diff = " << radians_to_degrees(phase_diff(std::arg(x_complex), std::arg(y))) << "\n"
+                << "theta tol = " << radians_to_degrees(theta_resolution);
+                
         }
     }
 
@@ -297,6 +304,46 @@ TYPED_TEST(SmallPolarTest, CastingToComplexNumber)
 TYPED_TEST(SmallPolarTest, Multiplication) 
 {
     using SmallPolarType = typename TestFixture::SmallPolarType;
+
+    const double rounding_grace = 1e-9;
+    const double theta_resolution = rounding_grace + TWO_PI / double(SmallPolarType::NUM_REPRESENTABLE_THETA);
+    const double r_resolution = rounding_grace + 1.0 / double(SmallPolarType::MAX_VAL_R);
+
+    const double num_test_values = 16;
+
+    std::complex<double> z1, z2, z3;
+    SmallPolarType a, b, c;
+
+
+    for (double r1 = 1.0 / num_test_values; r1 <= 1.0; r1 += 1.0 / num_test_values)
+    {
+        for (double r2 = 1.0 / num_test_values; r2 <= 1.0; r2 += 1.0 / num_test_values)
+        {
+            for (double theta1 = -PI; theta1 < PI; theta1 += TWO_PI / num_test_values)
+            {
+                for (double theta2 = -PI; theta2 < PI; theta2 += TWO_PI / num_test_values)
+                {
+                    z1 = std::polar(r1, theta1);
+                    z2 = std::polar(r2, theta2);
+                    z3 = z1 * z2;
+
+                    a = z1;
+                    b = z2;
+                    c = a * b;
+
+                    ASSERT_NEAR(c.get_magnitude(), std::abs(z3), 1.5 * r_resolution);
+
+                    ASSERT_LE(phase_diff(c.get_phase(), std::arg(z3)), theta_resolution)
+                        << "expected theta = " << radians_to_degrees(std::arg(z3)) << "\n"
+                        << "actual theta = " << radians_to_degrees(c.get_phase()) << "\n"
+                        << "diff = " << radians_to_degrees(phase_diff(c.get_phase(), std::arg(z3))) << "\n"
+                        << "theta tol = " << radians_to_degrees(theta_resolution) << "\n"
+                        << "theta1 = " << theta1 << "\n"
+                        << "theta2 = " << theta2 << "\n";
+                }
+            }
+        }
+    }
 
 
 }
