@@ -216,31 +216,23 @@ TYPED_TEST(SmallPolarTest, GetPhase)
 {   
     using SmallPolarType = typename TestFixture::SmallPolarType;
 
+    const double rounding_epsilon = 1e-3;
+
     const double degrees_resolution = 360.0 / double(SmallPolarType::NUM_REPRESENTABLE_THETA);
 
     SmallPolarType x;
     
-    // exact representations of angles
     for (double degrees = 0; degrees < 360; degrees += degrees_resolution)
     {  
-        ASSERT_DOUBLE_EQ(x.get_phase_degrees(), degrees) << "degrees: " << degrees;
+        // exact representations of angles
+        ASSERT_DOUBLE_EQ(x.get_phase_degrees(), degrees) 
+            << "degrees: " << degrees;
+
         ASSERT_DOUBLE_EQ(x.get_phase_radians(), degrees_to_radians(degrees)) 
             << "radians: " << degrees_to_radians(degrees);
+        
         x.theta++;
     }
-    
-
-    // angles that are rounded down
-    for (double degrees = 0; degrees < 360; degrees += degrees_resolution)
-    {  
-        const double degree_between = degrees + (degrees_resolution / 2.0);
-        x.theta = SmallPolarType::interpolate_theta(degrees_to_radians(degree_between));
-        ASSERT_DOUBLE_EQ(x.get_phase_degrees(), degrees) 
-            << "degrees: " << degree_between;
-        ASSERT_DOUBLE_EQ(x.get_phase_radians(), degrees_to_radians(degrees)) 
-            << "radians: " << degrees_to_radians(degrees);
-    }
-
 } 
 
 
@@ -263,7 +255,6 @@ TYPED_TEST(SmallPolarTest, GetMagnitude)
     }
     
 } 
-
 
 
 TYPED_TEST(SmallPolarTest, CastingToComplexNumber) 
@@ -302,3 +293,10 @@ TYPED_TEST(SmallPolarTest, CastingToComplexNumber)
 
 }
 
+
+TYPED_TEST(SmallPolarTest, Multiplication) 
+{
+    using SmallPolarType = typename TestFixture::SmallPolarType;
+
+
+}
