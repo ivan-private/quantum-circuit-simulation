@@ -133,24 +133,6 @@ private:
         return static_cast<uint16_t>(static_cast<uint16_t>(std::round(theta * static_cast<double>(NUM_REPRESENTABLE_THETA))) % NUM_REPRESENTABLE_THETA);
     }
 
-    // static uint8_t
-    // interpolate_theta(double theta)
-    // {           
-    //     // std::complex::arg gives theta in the range [-pi, pi]
-    //     // I also want it to work with angles in the range [0, 2pi]
-    //     if ( !(-M_PI <= theta && theta <= 2.0 * M_PI) )
-    //         throw std::invalid_argument("theta must be between -pi and 2pi: theta=" + std::to_string(theta));
-
-    //     if (theta < 0.0)
-    //         theta += 2.0 * M_PI; // theta in range [0, 2pi]
-
-    //     theta /= 2.0 * M_PI; // theta in range [0, 1]
-
-    //     if (1.0 < theta)
-    //         theta = 1.0;
-
-    //     return static_cast<uint8_t>(static_cast<uint16_t>(theta * static_cast<double>(NUM_REPRESENTABLE_THETA)) % NUM_REPRESENTABLE_THETA); 
-    // }
 
 
     static constexpr uint8_t MIN_VAL = 0;
