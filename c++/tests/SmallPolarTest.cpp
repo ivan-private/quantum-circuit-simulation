@@ -3,8 +3,6 @@
 
 #include <complex>
 #include <cmath>
-#include <cassert>
-#include <vector>
 
 #define private public // so private class members can be accessed and tested
 

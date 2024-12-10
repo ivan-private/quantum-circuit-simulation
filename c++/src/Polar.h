@@ -1,10 +1,8 @@
 #pragma once
 
-#include <iostream>
 #include <complex>
 #include <concepts>
 
-#include "Traits.h"
 
 template<std::floating_point Float_t>
 class Polar

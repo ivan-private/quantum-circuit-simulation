@@ -2,10 +2,8 @@
 
 #include <iostream>
 #include <vector>
-#include <format>
 #include <complex>
 
-#include "Polar.h"
 #include "Traits.h"
 
 namespace utils
@@ -25,11 +23,10 @@ namespace utils
         std::cout << utils::to_prob_string(qc.get_statevector()) << '\n';
     }
 
-    // std::string
-    // to_string(const LowPrecisionNumber number);
-
-    // void
-    // test_FixedPointNumber8_t();
+    void print_polar_coordinate(traits::PolarCoordinate auto pc)
+    {
+        std::cout << "Polar coordinate: (" << pc.get_magnitude() << ", " << pc.get_phase_degrees() << ")\n";
+    }
 
 
 }

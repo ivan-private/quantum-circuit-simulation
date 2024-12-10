@@ -5,7 +5,6 @@
 #include <cmath>
 #include <complex>
 #include <algorithm>
-#include <concepts>
 #include <cassert>
 
 #include "Traits.h"

@@ -1,11 +1,7 @@
 #pragma once
 
-#include <iostream>
 #include <complex>
 #include <concepts>
-#include <cassert>
-
-#include "Traits.h"
 
 
 template<uint8_t r_bits=8, uint8_t theta_bits=8>
@@ -26,7 +22,6 @@ public:
     template<std::floating_point T>
     SmallPolar(const std::complex<T>& z) 
         : r(interpolate_r(std::abs(z))), theta(interpolate_theta(std::arg(z))) {}
-
 
 
     template<std::floating_point T>
@@ -136,16 +131,6 @@ public:
     get_phase_degrees() const noexcept
     {
         return 360.0 * (static_cast<double>(theta) / static_cast<double>(NUM_REPRESENTABLE_THETA));
-    }
-
-
-    // for debug printing 
-    friend std::ostream& 
-    operator << (std::ostream& os, const SmallPolar& x)
-    {
-        os  << "(" << static_cast<int>(x.r) << ", " << static_cast<int>(x.theta) << ") == (" 
-            << x.get_magnitude() << ", " << x.get_phase() << ")";
-        return os;
     }
 
 
