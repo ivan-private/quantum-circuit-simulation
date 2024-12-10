@@ -65,10 +65,10 @@ struct SmallPolarConfig
 
 
 template <typename Config>
-class SmallPolarTest : public ::testing::Test 
+class SmallPolarTest : public testing::Test 
 {
 public:
-    using SmallPolarType = typename Config::SmallPolarType;
+    using SmallPolarType = Config::SmallPolarType;
     static constexpr uint8_t r_bits = Config::r_bits;
     static constexpr uint8_t theta_bits = Config::theta_bits;
 
@@ -77,7 +77,7 @@ public:
 };
 
 
-using SmallPolarTestTypes = ::testing::Types<
+using SmallPolarTestTypes = testing::Types<
     SmallPolarConfig<4, 4>,
     SmallPolarConfig<8, 8>
 >;
@@ -86,7 +86,7 @@ TYPED_TEST_SUITE(SmallPolarTest, SmallPolarTestTypes);
 
 TYPED_TEST(SmallPolarTest, SizeOfStruct) 
 {
-    using SmallPolarType = typename TestFixture::SmallPolarType;
+    using SmallPolarType = TestFixture::SmallPolarType;
 
     const uint8_t r_bits = TestFixture::r_bits;
     const uint8_t theta_bits = TestFixture::theta_bits;
@@ -99,7 +99,7 @@ TYPED_TEST(SmallPolarTest, SizeOfStruct)
 
 TYPED_TEST(SmallPolarTest, DefaultConstructor) 
 {
-    using SmallPolarType = typename TestFixture::SmallPolarType;
+    using SmallPolarType = TestFixture::SmallPolarType;
     SmallPolarType x;
     EXPECT_EQ(x.r, 0);
     EXPECT_EQ(x.theta, 0);
@@ -108,7 +108,7 @@ TYPED_TEST(SmallPolarTest, DefaultConstructor)
 
 TYPED_TEST(SmallPolarTest, ComplexNumberConstructor) 
 {
-    using SmallPolarType = typename TestFixture::SmallPolarType;
+    using SmallPolarType = TestFixture::SmallPolarType;
 
     const std::complex<double> i(0.0, 1.0);// complex number i
 
@@ -151,7 +151,7 @@ TYPED_TEST(SmallPolarTest, ComplexNumberConstructor)
 
 TYPED_TEST(SmallPolarTest, CopyConstructor) 
 {
-    using SmallPolarType = typename TestFixture::SmallPolarType;
+    using SmallPolarType = TestFixture::SmallPolarType;
 
     SmallPolarType x;
     SmallPolarType y = x;
@@ -164,7 +164,7 @@ TYPED_TEST(SmallPolarTest, CopyConstructor)
 
 TYPED_TEST(SmallPolarTest, InterpolateR)
 {   
-    using SmallPolarType = typename TestFixture::SmallPolarType;
+    using SmallPolarType = TestFixture::SmallPolarType;
 
     const double r_resolution = 1.0 / double(SmallPolarType::MAX_VAL_R);
 
@@ -194,7 +194,7 @@ TYPED_TEST(SmallPolarTest, InterpolateR)
 
 TYPED_TEST(SmallPolarTest, InterpolateTheta)
 {   
-    using SmallPolarType = typename TestFixture::SmallPolarType;
+    using SmallPolarType = TestFixture::SmallPolarType;
 
     EXPECT_THROW(SmallPolarType::interpolate_theta(degrees_to_radians(400)), std::invalid_argument);
 
@@ -218,7 +218,7 @@ TYPED_TEST(SmallPolarTest, InterpolateTheta)
 
 TYPED_TEST(SmallPolarTest, GetPhase)
 {   
-    using SmallPolarType = typename TestFixture::SmallPolarType;
+    using SmallPolarType = TestFixture::SmallPolarType;
 
     const double rounding_epsilon = 1e-3;
 
@@ -242,7 +242,7 @@ TYPED_TEST(SmallPolarTest, GetPhase)
 
 TYPED_TEST(SmallPolarTest, GetMagnitude)
 {   
-    using SmallPolarType = typename TestFixture::SmallPolarType;
+    using SmallPolarType = TestFixture::SmallPolarType;
 
     const double ROUNDING_ERROR = 1e-9;
 
@@ -263,7 +263,7 @@ TYPED_TEST(SmallPolarTest, GetMagnitude)
 
 TYPED_TEST(SmallPolarTest, CastingToComplexNumber) 
 {
-    using SmallPolarType = typename TestFixture::SmallPolarType;
+    using SmallPolarType = TestFixture::SmallPolarType;
 
     const double theta_resolution = TWO_PI / double(SmallPolarType::NUM_REPRESENTABLE_THETA);
     const double r_resolution = 1.0 / double(SmallPolarType::MAX_VAL_R);
@@ -281,7 +281,7 @@ TYPED_TEST(SmallPolarTest, CastingToComplexNumber)
         {
             y = std::polar(r, theta);
             x = y; // conversion constructor
-            x_complex = x;  
+            x_complex = static_cast<std::complex<double>>(x);  
             
             ASSERT_NEAR(std::abs(x_complex), std::abs(y), r_resolution) 
                 << "expected r = " << r << "\n"
@@ -303,7 +303,7 @@ TYPED_TEST(SmallPolarTest, CastingToComplexNumber)
 
 TYPED_TEST(SmallPolarTest, Multiplication) 
 {
-    using SmallPolarType = typename TestFixture::SmallPolarType;
+    using SmallPolarType = TestFixture::SmallPolarType;
 
     const double rounding_grace = 1e-9;
     const double theta_resolution = rounding_grace + TWO_PI / double(SmallPolarType::NUM_REPRESENTABLE_THETA);

@@ -5,15 +5,18 @@
 #include <concepts>
 #include <cassert>
 
+#include "Traits.h"
+
 
 template<uint8_t r_bits=8, uint8_t theta_bits=8>
-struct SmallPolar
+class SmallPolar
 {   
-    uint8_t r: r_bits;
-    uint8_t theta: theta_bits;
-
-
+public:
     SmallPolar() : r(0), theta(0) {}
+
+
+    SmallPolar(double r, double theta)
+        : r(interpolate_r(r)), theta(interpolate_theta(theta)) {}
 
 
     SmallPolar(const SmallPolar<r_bits, theta_bits>& other) 
@@ -25,22 +28,30 @@ struct SmallPolar
         : r(interpolate_r(std::abs(z))), theta(interpolate_theta(std::arg(z))) {}
 
 
+
     template<std::floating_point T>
-    operator std::complex<T>() const
+    explicit operator std::complex<T>() const
     {
         return std::polar<T>(get_magnitude(), get_phase());
     }
 
 
+    bool 
+    is_zero() const noexcept
+    {
+        return r == 0;
+    }
+
+
     bool
-    operator == (const SmallPolar<r_bits, theta_bits>& other) const 
+    operator == (const SmallPolar<r_bits, theta_bits>& other) const noexcept
     {
         return r == other.r && theta == other.theta;
     }
 
 
     bool
-    operator != (const SmallPolar<r_bits, theta_bits>& other) const 
+    operator != (const SmallPolar<r_bits, theta_bits>& other) const noexcept
     {
         return !(*this == other);
     }
@@ -68,15 +79,53 @@ struct SmallPolar
     }   
 
 
+    SmallPolar<r_bits, theta_bits>
+    operator + (SmallPolar<r_bits, theta_bits> other) const 
+    {
+        auto z = static_cast<std::complex<double>>(*this);
+        z += static_cast<std::complex<double>>(other);
+        if (std::abs(z) > 1.0)
+            z /= std::abs(z);
+        return static_cast<SmallPolar<r_bits, theta_bits>>(z);
+    }
+
+
+    SmallPolar<r_bits, theta_bits>
+    operator += (SmallPolar<r_bits, theta_bits> other) 
+    {
+        *this = (*this) + other;
+        return *this;
+    }
+
+
+    SmallPolar<r_bits, theta_bits>
+    operator - (SmallPolar<r_bits, theta_bits> other) const 
+    {
+        auto z = static_cast<std::complex<double>>(*this);
+        z -= static_cast<std::complex<double>>(other);
+        if (std::abs(z) > 1.0)
+            z /= std::abs(z);
+        return static_cast<SmallPolar<r_bits, theta_bits>>(z);
+    }   
+
+
+    SmallPolar<r_bits, theta_bits>
+    operator -= (SmallPolar<r_bits, theta_bits> other) 
+    {
+        *this = (*this) - other;
+        return *this;
+    }   
+
+
     double
-    get_magnitude() const
+    get_magnitude() const noexcept
     {   
         return static_cast<double>(r) / static_cast<double>(MAX_VAL_R);
     }
 
 
     double 
-    get_phase() const
+    get_phase() const noexcept
     {   
         // radians in the range [0, 2pi)
         return 2.0 * M_PI * (static_cast<double>(theta) / static_cast<double>(NUM_REPRESENTABLE_THETA));
@@ -84,7 +133,7 @@ struct SmallPolar
 
 
     double 
-    get_phase_degrees() const
+    get_phase_degrees() const noexcept
     {
         return 360.0 * (static_cast<double>(theta) / static_cast<double>(NUM_REPRESENTABLE_THETA));
     }
@@ -102,7 +151,7 @@ struct SmallPolar
 
 private:
 
-    SmallPolar(uint8_t r, uint8_t theta) : r(r), theta(theta) {}
+    explicit SmallPolar(uint8_t r, uint8_t theta) : r(r), theta(theta) {}
 
     static uint8_t
     interpolate_r(double r)
@@ -135,6 +184,10 @@ private:
 
 
 
+private:
+    uint8_t r: r_bits;
+    uint8_t theta: theta_bits;
+
     static constexpr uint8_t MIN_VAL = 0;
     static constexpr uint8_t MAX_VAL_R = (1 << r_bits) - 1;
     static constexpr uint8_t MAX_VAL_THETA = (1 << theta_bits) - 1;
@@ -143,3 +196,7 @@ private:
     static constexpr uint16_t NUM_REPRESENTABLE_THETA = (1 << theta_bits);
 
 };
+
+
+using OneBytePolar = SmallPolar<4, 4>;
+using TwoBytePolar = SmallPolar<8, 8>;
