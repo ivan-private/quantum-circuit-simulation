@@ -5,6 +5,7 @@ project(QuantumCircuitSimulation)
 enable_testing()
 
 # Set the CMake toolchain file for vcpkg
+# TODO: dont hardcode the path for vcpkg.cmake 
 set(CMAKE_TOOLCHAIN_FILE /Users/ivan/vcpkg/scripts/buildsystems/vcpkg.cmake)
 
 # Set the C++ standard
