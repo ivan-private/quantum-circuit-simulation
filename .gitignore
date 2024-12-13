@@ -8,6 +8,7 @@ __pycache__
 
 # Build dir
 build
+profiling
 
 # vcpkg local install of dependencies
 vcpkg_installed
