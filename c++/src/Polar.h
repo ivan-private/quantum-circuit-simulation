@@ -11,11 +11,11 @@ public:
 
     //TODO: maybe add noexcept to everything?
 
-    Polar() : r(0.0), theta(0.0) {}
+    constexpr Polar() : r(0.0), theta(0.0) {}
 
-    Polar(Float_t r, Float_t theta) : r(r), theta(theta) {}
+    constexpr Polar(Float_t r, Float_t theta) : r(r), theta(theta) {}
 
-    Polar(const Polar<Float_t>& other) : r(other.r), theta(other.theta) {}
+    constexpr Polar(const Polar<Float_t>& other) : r(other.r), theta(other.theta) {}
 
     template<std::floating_point T>
     Polar(const std::complex<T>& z) : r(std::abs(z)), theta(std::arg(z)) {}

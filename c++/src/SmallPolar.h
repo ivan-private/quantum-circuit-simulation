@@ -8,14 +8,14 @@ template<uint8_t r_bits=8, uint8_t theta_bits=8>
 class SmallPolar
 {   
 public:
-    SmallPolar() : r(0), theta(0) {}
+    constexpr SmallPolar() : r(0), theta(0) {}
 
 
     SmallPolar(double r, double theta)
         : r(interpolate_r(r)), theta(interpolate_theta(theta)) {}
 
 
-    SmallPolar(const SmallPolar<r_bits, theta_bits>& other) 
+    constexpr SmallPolar(const SmallPolar<r_bits, theta_bits>& other) 
         : r(other.r), theta(other.theta) {}
 
 
@@ -164,7 +164,9 @@ private:
         if (theta > 1.0)
             theta = 1.0;
 
-        return static_cast<uint16_t>(static_cast<uint16_t>(std::round(theta * static_cast<double>(NUM_REPRESENTABLE_THETA))) % NUM_REPRESENTABLE_THETA);
+        return static_cast<uint8_t>(
+            static_cast<uint16_t>(std::round(theta * static_cast<double>(NUM_REPRESENTABLE_THETA))) % NUM_REPRESENTABLE_THETA
+        );
     }
 
 

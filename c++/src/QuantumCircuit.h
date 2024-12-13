@@ -131,28 +131,18 @@ QuantumCircuit<ComplexType>::cp(double angle, uint8_t control_qubit, uint8_t tar
 
     const ComplexType phase_factor(std::polar<double>(1.0, angle));
 
+    constexpr ComplexType zero;
+
     for (size_t state = 0; state < n_states; state++)
     {
         target_qubit = state & target_mask;
         control_qubit = state & control_mask;
 
-        if ( !(control_qubit && target_qubit) )
-            continue;
+        if (control_qubit && target_qubit && statevector[state] != zero)
+        {
+            statevector[state] *= phase_factor;
+        }
 
-        if constexpr (traits::PolarCoordinate<ComplexType>)
-        {
-            if (!statevector[state].is_zero())
-            {
-                statevector[state] *= phase_factor;
-            }
-        }
-        else if constexpr (traits::StdComplex<ComplexType>) 
-        {
-            if (std::abs(statevector[state]) > 0.0) 
-            {
-                statevector[state] *= phase_factor;
-            }
-        }
     }
 }
 
