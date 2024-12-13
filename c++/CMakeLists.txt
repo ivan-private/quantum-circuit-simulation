@@ -1,12 +1,12 @@
 cmake_minimum_required(VERSION 3.30)
+
+# Set the CMake toolchain file for vcpkg
+set(CMAKE_TOOLCHAIN_FILE $ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake)
+
 project(QuantumCircuitSimulation)
 
 # Enable testing and benchmarks
 enable_testing()
-
-# Set the CMake toolchain file for vcpkg
-# TODO: dont hardcode the path for vcpkg.cmake 
-set(CMAKE_TOOLCHAIN_FILE /Users/ivan/vcpkg/scripts/buildsystems/vcpkg.cmake)
 
 # Set the C++ standard
 set(CMAKE_CXX_STANDARD 20)
