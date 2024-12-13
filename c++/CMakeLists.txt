@@ -19,6 +19,8 @@ set(BENCHMARK_DIR ${CMAKE_SOURCE_DIR}/benchmarks)
 
 # Define the target name for the main executable
 set(TARGET main_executable)
+set(TEST_TARGET tests)
+set(BENCHMARK_TARGET benchmarks)
 
 # Add source files
 file(GLOB_RECURSE SRC_FILES ${SRC_DIR}/*.cpp)
@@ -39,20 +41,20 @@ target_link_libraries(${TARGET} PRIVATE GTest::gtest GTest::gtest_main)
 # Add tests
 file(GLOB_RECURSE TEST_FILES ${TEST_DIR}/*.cpp)
 if(TEST_FILES)
-    add_executable(tests ${TEST_FILES})
+    add_executable(${TEST_TARGET} ${TEST_FILES})
     # target_link_libraries(tests GTest::gtest_main)
-    target_link_libraries(tests GTest::gtest_main GTest::gmock GTest::gmock_main)
+    target_link_libraries(${TEST_TARGET} GTest::gtest_main GTest::gmock GTest::gmock_main)
     include(GoogleTest)
-    gtest_discover_tests(tests)
+    gtest_discover_tests(${TEST_TARGET})
 endif()
 
 # Add benchmarks
 file(GLOB_RECURSE BENCHMARK_FILES ${BENCHMARK_DIR}/*.cpp)
 if(BENCHMARK_FILES)
-    add_executable(benchmarks ${BENCHMARK_FILES})
-    target_link_libraries(benchmarks benchmark::benchmark)
+    add_executable(${BENCHMARK_TARGET} ${BENCHMARK_FILES})
+    target_link_libraries(${BENCHMARK_TARGET} benchmark::benchmark)
 endif()
 
 # Install targets (optional)
-install(TARGETS ${TARGET} tests benchmarks RUNTIME DESTINATION bin)
+install(TARGETS ${TARGET} ${TEST_TARGET} ${BENCHMARK_TARGET} RUNTIME DESTINATION bin)
 
