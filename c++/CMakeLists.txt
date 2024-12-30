@@ -1,60 +1,53 @@
-cmake_minimum_required(VERSION 3.30)
+cmake_minimum_required(VERSION 3.27)
 
-# Set the CMake toolchain file for vcpkg
-set(CMAKE_TOOLCHAIN_FILE $ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake)
+if(DEFINED ENV{VCPKG_ROOT})
+    set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake")
+else()
+    message(FATAL_ERROR "VCPKG_ROOT is not set. Please set it to the root of your vcpkg installation.")
+endif()
 
 project(QuantumCircuitSimulation)
 
-# Enable testing and benchmarks
 enable_testing()
 
-# Set the C++ standard
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Define source directories
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    add_compile_options(-Wall -Wextra -pedantic -g)
+elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
+    add_compile_options(-O3 -DNDEBUG)
+endif()
+
 set(SRC_DIR ${CMAKE_SOURCE_DIR}/src)
 set(TEST_DIR ${CMAKE_SOURCE_DIR}/tests)
 set(BENCHMARK_DIR ${CMAKE_SOURCE_DIR}/benchmarks)
 
-# Define the target name for the main executable
 set(TARGET main_executable)
 set(TEST_TARGET tests)
 set(BENCHMARK_TARGET benchmarks)
 
-# Add source files
 file(GLOB_RECURSE SRC_FILES ${SRC_DIR}/*.cpp)
 
-# Main application executable
 add_executable(${TARGET} ${SRC_FILES})
 
-# Use vcpkg to find GTest and Google Benchmark
+
 find_package(GTest CONFIG REQUIRED)
 find_package(benchmark CONFIG REQUIRED)
 
-# Include directories
 include_directories(${SRC_DIR})
 
-# Link libraries for main executable
-target_link_libraries(${TARGET} PRIVATE GTest::gtest GTest::gtest_main)
 
-# Add tests
 file(GLOB_RECURSE TEST_FILES ${TEST_DIR}/*.cpp)
 if(TEST_FILES)
     add_executable(${TEST_TARGET} ${TEST_FILES})
-    # target_link_libraries(tests GTest::gtest_main)
     target_link_libraries(${TEST_TARGET} GTest::gtest_main GTest::gmock GTest::gmock_main)
     include(GoogleTest)
     gtest_discover_tests(${TEST_TARGET})
 endif()
 
-# Add benchmarks
 file(GLOB_RECURSE BENCHMARK_FILES ${BENCHMARK_DIR}/*.cpp)
 if(BENCHMARK_FILES)
     add_executable(${BENCHMARK_TARGET} ${BENCHMARK_FILES})
     target_link_libraries(${BENCHMARK_TARGET} benchmark::benchmark)
 endif()
-
-# Install targets (optional)
-install(TARGETS ${TARGET} ${TEST_TARGET} ${BENCHMARK_TARGET} RUNTIME DESTINATION bin)
-

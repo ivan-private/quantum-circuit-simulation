@@ -4,13 +4,18 @@
 #include <numbers>
 #include <complex>
 
-#include "Traits.h"
+//#include "Traits.h"
 #include "SmallPolar.h"
 #include "Polar.h"
 #include "QuantumCircuit.h"
 #include "Utils.h"
 
+#include <vector>
+#include <algorithm>
 
+#include <thread>
+
+// working prototype
 Polar<double>
 add(const Polar<double> a, const Polar<double> b)
 {
@@ -26,43 +31,28 @@ add(const Polar<double> a, const Polar<double> b)
 }
 
 
+// example usecase 
 int
-main(int argc, char** argv)
+main()
 {    
     static_assert(sizeof(SmallPolar<4, 4>) == 1);
     static_assert(sizeof(SmallPolar<8, 8>) == 2);
 
-    constexpr double PI = std::numbers::pi;
+    std::cout << "log2(sqrt 2) = " << std::log2(std::numbers::sqrt2) << "\n";
 
-    std::complex<double> z1 = std::polar(1.0 / std::sqrt(2), 0.0);
-    std::complex<double> z2 = std::polar(1.0 / std::sqrt(2), PI / 2.0);
-    std::complex<double> z3 = z1 + z2;
+    for (auto r : {1/std::numbers::sqrt2})
+    {
+        TwoBytePolar x(r, 0.0);
 
-    Polar<double> z1_polar(z1);
-    Polar<double> z2_polar(z2);
-    Polar<double> z3_polar = add(z1_polar, z2_polar);
+        std::cout << "\nr = " << r << ", -log2(r) = "<< -std::log2(r) << "\n" << x << "\n";
+    }
+    
 
-    std::cout << "z3 = z1 + z2 = " << z3 << '\n'
-            << "z3_polar = z1_polar + z2_polar = " << static_cast<std::complex<double>>(z3_polar) << '\n';
+    QuantumCircuit<TwoBytePolar> qc(3);
+    utils::print_statevector_as_prob(qc);
+    qc.x(1);
+    qc.qft();
 
-    const uint8_t n_qubits = 3;
-
-    QuantumCircuit<std::complex<double>> qc_base(n_qubits);
-
-    QuantumCircuit<SmallPolar<4, 4>> qc_polar(n_qubits);
-
-    qc_base.x(1);
-    qc_polar.x(1);
-
-    qc_base.qft();
-    qc_polar.qft();
-
-    std::cout << "\nQuantumCircuit<std::complex<double>> statevector:";
-    utils::print_statevector_as_prob(qc_base);
-
-    std::cout << "\nQuantumCircuit<SmallPolar<4, 4>> statevector:";
-    utils::print_statevector_as_prob(qc_polar);
-
+    utils::print_statevector_as_prob(qc);
 }
-
 

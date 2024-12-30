@@ -7,6 +7,7 @@
 #include <cassert>
 #include <complex>
 #include <numbers>
+#include <algorithm>
 
 #include "Traits.h"
 

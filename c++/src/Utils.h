@@ -25,7 +25,7 @@ namespace utils
 
     void print_polar_coordinate(traits::PolarCoordinate auto pc)
     {
-        std::cout << "Polar coordinate: (" << pc.get_magnitude() << ", " << pc.get_phase_degrees() << ")\n";
+        std::cout << "Polar coordinate: (" << pc.get_magnitude() << ", " << pc.get_phase_degrees() << " degrees)\n";
     }
 
 
