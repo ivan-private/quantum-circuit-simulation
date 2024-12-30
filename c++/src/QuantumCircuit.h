@@ -48,9 +48,9 @@ public:
 
     void reset_statevector();
 
-private: 
-    size_t n_states; // 2^{64} different states in the system, so max 64 qubits
+private:
     uint8_t n_qubits; // max 255 qubits in the system
+    size_t n_states; // 2^{64} different states in the system, so max 64 qubits
     std::vector<ComplexType> statevector;
 };
 
