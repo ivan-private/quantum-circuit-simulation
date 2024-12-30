@@ -38,19 +38,19 @@ main()
     static_assert(sizeof(SmallPolar<4, 4>) == 1);
     static_assert(sizeof(SmallPolar<8, 8>) == 2);
 
-    std::cout << "log2(sqrt 2) = " << std::log2(std::numbers::sqrt2) << "\n";
-
-    for (auto r : {1/std::numbers::sqrt2})
+    for (int i = 0; i < 20; i++)
     {
+        const double r = std::pow(1 / std::numbers::sqrt2, i);
         TwoBytePolar x(r, 0.0);
 
-        std::cout << "\nr = " << r << ", -log2(r) = "<< -std::log2(r) << "\n" << x << "\n";
+        std::cout << "\n\nr = (1 / sqrt(2))^" << i << '\n' << x;
     }
     
 
-    QuantumCircuit<TwoBytePolar> qc(4);
-    // utils::print_statevector_as_prob(qc);
-    qc.ghz();
+    QuantumCircuit<SmallPolar<7,1>> qc(4);
+    qc.x(1);
+    qc.qft();
+    //qc.ghz();
 
     utils::print_statevector_as_prob(qc);
 }

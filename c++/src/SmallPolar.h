@@ -168,7 +168,7 @@ private:
 
         if (r == 0.0) return MAX_VAL_R; 
 
-        return static_cast<uint8_t>( std::round(-std::log2(r) / std::log2(EXP_BASE_R)) );
+        return static_cast<uint8_t>( std::round(std::log2(r) / std::log2(EXP_BASE_R)) );
     }
 
 
@@ -177,7 +177,7 @@ private:
     {
         if (r == MAX_VAL_R) return 0.0;
 
-        return std::pow(EXP_BASE_R, -static_cast<double>(r)); 
+        return std::pow(EXP_BASE_R, static_cast<double>(r)); 
     }
 
 
@@ -215,7 +215,7 @@ public:
     uint8_t r: r_bits;
     uint8_t theta: theta_bits;
 
-    static constexpr double EXP_BASE_R = std::numbers::sqrt2;
+    static constexpr double EXP_BASE_R = 1 / std::numbers::sqrt2;
     static constexpr uint8_t MIN_VAL_R = 0; 
     static constexpr uint8_t MAX_VAL_R = (1 << r_bits) - 1; 
     static constexpr uint16_t NUM_REPRESENTABLE_R = (1 << r_bits); 
