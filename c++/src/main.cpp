@@ -48,10 +48,9 @@ main()
     }
     
 
-    QuantumCircuit<TwoBytePolar> qc(3);
-    utils::print_statevector_as_prob(qc);
-    qc.x(1);
-    qc.qft();
+    QuantumCircuit<TwoBytePolar> qc(4);
+    // utils::print_statevector_as_prob(qc);
+    qc.ghz();
 
     utils::print_statevector_as_prob(qc);
 }

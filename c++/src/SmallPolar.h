@@ -68,7 +68,8 @@ public:
         //     static_cast<std::complex<double>>(*this) *
         //     static_cast<std::complex<double>>(other)
         // );        
-        const uint8_t r_result = encode_r( decode_r(r) * decode_r(other.r) );
+        const uint8_t r_result = std::min<uint16_t>(static_cast<uint16_t>(MAX_VAL_R), 
+        static_cast<uint16_t>(r) + static_cast<uint16_t>(other.r));
         const uint8_t theta_result = this->theta + other.theta;
         return SmallPolar<r_bits, theta_bits>(r_result, theta_result);
     }   
