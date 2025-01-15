@@ -2,6 +2,7 @@
 
 #include <complex>
 #include <concepts>
+#include <numbers>
 
 #include <cmath>
 
@@ -68,8 +69,8 @@ public:
         //     static_cast<std::complex<double>>(*this) *
         //     static_cast<std::complex<double>>(other)
         // );        
-        const uint8_t r_result = std::min<uint16_t>(static_cast<uint16_t>(MAX_VAL_R), 
-        static_cast<uint16_t>(r) + static_cast<uint16_t>(other.r));
+        const uint8_t r_result = std::min<uint16_t>( static_cast<uint16_t>(MAX_VAL_R), 
+            static_cast<uint16_t>(r) + static_cast<uint16_t>(other.r) );
         const uint8_t theta_result = this->theta + other.theta;
         return SmallPolar<r_bits, theta_bits>(r_result, theta_result);
     }   
@@ -206,12 +207,13 @@ private:
     inline static double 
     decode_theta(uint8_t theta)
     {
-        return 2.0 * M_PI * (static_cast<double>(theta) / static_cast<double>(NUM_REPRESENTABLE_THETA));
+        const double temp = 2.0 * M_PI * (static_cast<double>(theta) / static_cast<double>(NUM_REPRESENTABLE_THETA));
+        return temp > M_PI? temp - (2.0 * M_PI) : temp;
     }
 
 
 
-public:
+private:
     uint8_t r: r_bits;
     uint8_t theta: theta_bits;
 

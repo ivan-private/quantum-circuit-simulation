@@ -3,8 +3,8 @@
 #include <complex>
 #include <concepts>
 
+#include "SmallPolar.h"
 
-template<std::floating_point Float_t>
 class Polar
 {
 public:
@@ -13,17 +13,24 @@ public:
 
     constexpr Polar() : r(0.0), theta(0.0) {}
 
-    constexpr Polar(Float_t r, Float_t theta) : r(r), theta(theta) {}
+    constexpr Polar(double r, double theta) : r(r), theta(theta) {}
 
-    constexpr Polar(const Polar<Float_t>& other) : r(other.r), theta(other.theta) {}
+    Polar(const std::complex<double>& z) : r(std::abs(z)), theta(std::arg(z)) {}
 
-    template<std::floating_point T>
-    Polar(const std::complex<T>& z) : r(std::abs(z)), theta(std::arg(z)) {}
+    template<uint8_t r_bits, uint8_t theta_bits>
+    Polar(const SmallPolar<r_bits, theta_bits>& sp) : r(sp.get_magnitude()), theta(sp.get_phase()) {}
 
-    template<std::floating_point T>
-    explicit operator std::complex<T>() const
+
+    constexpr Polar(const Polar& other) = default;
+    constexpr Polar(Polar&& other) noexcept = default;
+    constexpr ~Polar() = default;
+    constexpr Polar& operator = (const Polar& other) = default;
+    constexpr Polar& operator = (Polar&& other) noexcept = default;
+
+
+    explicit operator std::complex<double>() const
     {
-        return std::polar<T>(static_cast<T>(r), static_cast<T>(theta));
+        return std::polar(r, theta);
     }
 
 
@@ -35,64 +42,64 @@ public:
 
 
     bool
-    operator == (const Polar<Float_t>& other) const noexcept
+    operator == (const Polar& other) const noexcept
     {
         return r == other.r && theta == other.theta;
     }
 
 
     bool
-    operator != (const Polar<Float_t>& other) const noexcept
+    operator != (const Polar& other) const noexcept
     {
         return !(*this == other);
     }
 
 
-    Polar<Float_t>
-    operator * (const Polar<Float_t>& other) const 
+    Polar
+    operator * (const Polar& other) const 
     {
-        return static_cast<Polar<Float_t>>(
+        return static_cast<Polar>(
             static_cast<std::complex<double>>(*this) * static_cast<std::complex<double>>(other)
         );
     }   
 
 
-    Polar<Float_t>
-    operator *= (const Polar<Float_t>& other) 
+    Polar
+    operator *= (const Polar& other) 
     {
         *this = (*this) * other;
         return *this;
     }   
 
 
-    Polar<Float_t>
-    operator + (const Polar<Float_t>& other) const 
+    Polar
+    operator + (const Polar& other) const 
     {
-        return static_cast<Polar<Float_t>>(
+        return static_cast<Polar>(
             static_cast<std::complex<double>>(*this) + static_cast<std::complex<double>>(other)
         );
     }   
 
 
-    Polar<Float_t>
-    operator += (const Polar<Float_t>& other) 
+    Polar
+    operator += (const Polar& other) 
     {
         *this = (*this) + other;
         return *this;
     }   
 
 
-    Polar<Float_t>
-    operator - (const Polar<Float_t>& other) const 
+    Polar
+    operator - (const Polar& other) const 
     {
-        return static_cast<Polar<Float_t>>(
+        return static_cast<Polar>(
             static_cast<std::complex<double>>(*this) - static_cast<std::complex<double>>(other)
         );
     }   
 
 
-    Polar<Float_t>
-    operator -= (const Polar<Float_t>& other) 
+    Polar
+    operator -= (const Polar& other) 
     {
         *this = (*this) - other;
         return *this;
@@ -102,27 +109,27 @@ public:
     double 
     get_phase_degrees() const noexcept
     {
-        return static_cast<double>(theta) * 180.0 / M_PI;
+        return theta * 180.0 / M_PI;
     }
 
 
     double
     get_magnitude() const noexcept
     {   
-        return static_cast<double>(r);
+        return r;
     }
 
 
     double 
     get_phase() const noexcept
     {   
-        return static_cast<double>(theta);
+        return theta;
     }
 
 
 private:
-    Float_t r;
-    Float_t theta;
+    double r;
+    double theta;
 
 
     static constexpr double EPSILON = 1e-9;

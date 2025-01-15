@@ -1,0 +1,1729 @@
+g++ -O3 -g -Wall -Wextra -pedantic -std=c++20 -I./src -I./tests -c tests/QC_Tester.cpp -o build/QC_Tester.o
+g++ -O3 -g -Wall -Wextra -pedantic -std=c++20 -I./src -I./tests  build/QC_Tester.o -o build/test_executable 
+./build/test_executable
+
+======================
+Qubits: 3
+
+Gate		control		target		phase (degrees)
+CP		0		1		90
+CP		1		0		90
+H		-		1
+Random gates: 3, Fidelity: 1
+
+Gate		control		target		phase (degrees)
+SWAP		1		0
+X		-		2
+SWAP		2		2
+SWAP		0		2
+SWAP		1		2
+CX		0		1
+Random gates: 6, Fidelity: 1
+
+Gate		control		target		phase (degrees)
+X		-		2
+H		-		2
+X		-		1
+X		-		1
+H		-		0
+X		-		0
+H		-		1
+CP		2		1		90
+H		-		2
+Random gates: 9, Fidelity: 1
+
+QFT, Fidelity: 1
+
+GHZ, Fidelity: 1
+
+======================
+
+======================
+Qubits: 5
+
+Gate		control		target		phase (degrees)
+CP		4		0		90
+X		-		3
+H		-		0
+X		-		4
+SWAP		1		2
+Random gates: 5, Fidelity: 1
+
+Gate		control		target		phase (degrees)
+SWAP		2		3
+SWAP		2		2
+SWAP		1		1
+H		-		1
+X		-		1
+X		-		0
+SWAP		1		0
+H		-		3
+CX		1		0
+CP		1		3		90
+Random gates: 10, Fidelity: 1
+
+Gate		control		target		phase (degrees)
+SWAP		0		3
+SWAP		2		4
+H		-		3
+X		-		2
+H		-		4
+X		-		2
+CX		1		0
+X		-		3
+SWAP		3		3
+H		-		0
+CX		2		1
+CP		4		2		90
+H		-		0
+X		-		1
+CP		0		4		90
+CX		4		3
+CP		0		3		90
+SWAP		3		4
+SWAP		4		1
+H		-		4
+CX		0		2
+SWAP		1		1
+H		-		2
+SWAP		4		4
+X		-		4
+Random gates: 25, Fidelity: 1
+
+QFT, Fidelity: 1
+
+GHZ, Fidelity: 1
+
+======================
+
+======================
+Qubits: 10
+
+Gate		control		target		phase (degrees)
+CP		8		9		90
+CP		5		0		90
+H		-		1
+SWAP		7		6
+X		-		2
+SWAP		5		2
+SWAP		2		4
+X		-		1
+H		-		6
+X		-		9
+Random gates: 10, Fidelity: 1
+
+Gate		control		target		phase (degrees)
+X		-		1
+H		-		1
+H		-		8
+CP		9		8		90
+CP		6		5		90
+X		-		9
+CP		4		8		90
+X		-		4
+H		-		3
+X		-		2
+H		-		4
+X		-		2
+CX		9		8
+X		-		3
+SWAP		5		3
+H		-		0
+CX		7		9
+CP		0		8		90
+X		-		1
+CP		0		8		90
+Random gates: 20, Fidelity: 1
+
+Gate		control		target		phase (degrees)
+SWAP		5		6
+CX		5		7
+H		-		4
+SWAP		7		7
+SWAP		9		0
+SWAP		2		0
+CX		7		1
+X		-		8
+CX		4		0
+SWAP		1		9
+H		-		2
+CP		1		2		90
+SWAP		7		2
+CX		6		0
+X		-		2
+CX		7		0
+X		-		4
+H		-		6
+X		-		2
+X		-		5
+SWAP		0		8
+X		-		5
+H		-		9
+CP		9		1		90
+SWAP		4		6
+H		-		8
+CP		9		2		90
+SWAP		5		8
+H		-		1
+X		-		8
+H		-		3
+SWAP		2		0
+CP		3		5		90
+X		-		2
+SWAP		3		0
+H		-		7
+CX		8		3
+H		-		8
+SWAP		2		9
+H		-		3
+H		-		1
+CX		4		3
+CP		6		7		90
+CP		5		3		90
+CX		4		0
+CP		3		8		90
+CP		5		6		90
+X		-		7
+H		-		2
+H		-		2
+X		-		4
+H		-		4
+X		-		7
+CP		1		6		90
+X		-		6
+X		-		6
+H		-		0
+CX		9		6
+H		-		6
+H		-		3
+X		-		0
+SWAP		3		4
+SWAP		3		8
+H		-		0
+SWAP		9		5
+SWAP		9		5
+CX		5		6
+CP		6		8		90
+CP		7		2		90
+CP		0		5		90
+CX		1		8
+X		-		4
+X		-		1
+CX		0		4
+H		-		6
+CX		4		3
+SWAP		7		6
+CP		0		6		90
+SWAP		7		6
+CX		9		5
+X		-		9
+X		-		8
+SWAP		2		4
+H		-		0
+CP		4		9		90
+CP		9		1		90
+CX		5		4
+H		-		8
+SWAP		2		3
+X		-		9
+SWAP		4		8
+CX		1		6
+CP		8		9		90
+H		-		5
+CX		2		8
+CX		0		5
+X		-		8
+CX		6		0
+SWAP		7		3
+CP		0		1		90
+Random gates: 100, Fidelity: 1
+
+QFT, Fidelity: 0.999962
+
+GHZ, Fidelity: 1
+
+======================
+
+======================
+Qubits: 15
+
+Gate		control		target		phase (degrees)
+CP		12		8		90
+X		-		11
+H		-		0
+X		-		12
+SWAP		6		9
+CX		4		14
+CX		4		11
+SWAP		10		12
+CX		4		7
+X		-		1
+H		-		6
+X		-		9
+X		-		1
+H		-		12
+X		-		8
+Random gates: 15, Fidelity: 1
+
+Gate		control		target		phase (degrees)
+H		-		13
+CP		10		9		90
+H		-		14
+CP		6		5		90
+X		-		9
+CP		4		8		90
+X		-		11
+SWAP		10		0
+CP		9		2		90
+H		-		4
+X		-		2
+CX		9		8
+X		-		3
+SWAP		11		5
+X		-		3
+H		-		0
+CX		10		7
+X		-		7
+CP		12		10		90
+H		-		8
+X		-		1
+CP		0		8		90
+SWAP		5		6
+CX		12		11
+CP		7		13		90
+H		-		11
+SWAP		11		4
+SWAP		7		13
+SWAP		9		0
+SWAP		2		0
+Random gates: 30, Fidelity: 1
+
+Gate		control		target		phase (degrees)
+CX		7		12
+X		-		7
+X		-		8
+CX		12		4
+H		-		12
+X		-		14
+SWAP		9		8
+CX		3		1
+CX		12		7
+CX		10		6
+H		-		9
+CX		6		2
+H		-		6
+X		-		10
+SWAP		6		0
+X		-		2
+X		-		5
+SWAP		10		0
+H		-		9
+H		-		9
+CP		9		1		90
+SWAP		4		11
+H		-		11
+H		-		11
+X		-		2
+SWAP		5		8
+H		-		13
+CP		1		13		90
+H		-		14
+H		-		12
+CX		13		3
+SWAP		2		14
+H		-		13
+CP		3		5		90
+X		-		2
+SWAP		3		0
+H		-		13
+SWAP		7		2
+SWAP		14		10
+H		-		13
+CP		0		8		90
+SWAP		13		2
+X		-		0
+SWAP		3		8
+X		-		10
+SWAP		12		14
+CP		14		3		90
+CP		11		10		90
+CP		6		7		90
+CP		5		14		90
+SWAP		3		2
+SWAP		4		0
+CP		3		8		90
+CP		5		14		90
+X		-		7
+H		-		10
+CX		2		8
+CX		14		1
+SWAP		0		12
+SWAP		14		1
+CP		1		12		90
+X		-		10
+X		-		6
+H		-		0
+CX		14		12
+X		-		6
+H		-		6
+H		-		3
+X		-		0
+SWAP		3		10
+CP		4		7		90
+SWAP		3		8
+H		-		0
+SWAP		14		13
+X		-		5
+SWAP		9		10
+CX		14		13
+SWAP		5		6
+CP		6		12		90
+SWAP		8		11
+CX		12		7
+CP		12		2		90
+CP		0		13		90
+CX		1		11
+CX		8		5
+X		-		4
+X		-		11
+CP		1		2		90
+H		-		10
+SWAP		14		7
+H		-		6
+CX		4		3
+SWAP		7		6
+CP		0		13		90
+SWAP		7		6
+CX		10		12
+X		-		10
+X		-		9
+X		-		8
+SWAP		12		2
+CX		11		9
+SWAP		0		0
+CP		10		4		90
+X		-		3
+X		-		1
+CX		5		13
+SWAP		13		14
+H		-		11
+H		-		12
+CX		3		13
+X		-		9
+SWAP		4		8
+CX		1		6
+CP		14		8		90
+X		-		7
+H		-		5
+CX		2		12
+CP		10		8		90
+CX		0		12
+X		-		13
+H		-		10
+CP		6		0		90
+SWAP		7		11
+CP		11		0		90
+CP		1		6		90
+CX		0		6
+X		-		6
+SWAP		2		11
+SWAP		5		4
+CX		14		9
+CX		14		7
+H		-		7
+CP		13		11		90
+CX		14		8
+H		-		8
+H		-		14
+CX		12		0
+SWAP		1		10
+X		-		10
+SWAP		9		11
+X		-		5
+X		-		10
+SWAP		9		8
+CX		5		1
+CX		8		0
+CP		12		9		90
+H		-		4
+H		-		6
+CP		2		4		90
+CP		10		12		90
+CX		12		0
+H		-		13
+SWAP		10		10
+SWAP		2		14
+CP		5		0		90
+H		-		12
+CP		12		11		90
+CP		12		8		90
+CP		13		1		90
+SWAP		7		12
+CP		2		10		90
+CX		6		10
+H		-		10
+X		-		14
+CX		6		11
+H		-		8
+X		-		14
+X		-		11
+CP		13		14		90
+CP		14		9		90
+CP		3		6		90
+X		-		3
+H		-		12
+H		-		5
+CX		14		7
+SWAP		4		10
+H		-		14
+CP		13		2		90
+SWAP		13		8
+SWAP		6		7
+CX		11		12
+CX		12		1
+CP		7		12		90
+CP		8		3		90
+H		-		12
+CP		0		14		90
+CP		9		6		90
+SWAP		4		13
+CX		13		2
+SWAP		10		1
+CX		3		9
+CP		3		6		90
+H		-		12
+CP		11		13		90
+CP		3		6		90
+H		-		10
+CP		5		1		90
+CP		2		6		90
+CP		10		6		90
+CX		8		12
+H		-		1
+CP		8		6		90
+H		-		0
+X		-		2
+SWAP		14		4
+CX		0		1
+H		-		8
+CX		14		5
+SWAP		3		0
+CX		1		11
+CP		9		4		90
+SWAP		4		13
+H		-		9
+H		-		7
+X		-		10
+CX		4		5
+CX		12		13
+H		-		5
+CX		13		12
+SWAP		9		9
+X		-		1
+SWAP		6		5
+CP		6		4		90
+X		-		1
+X		-		2
+Random gates: 225, Fidelity: 1
+
+QFT, Fidelity: 0.99995
+
+GHZ, Fidelity: 1
+
+======================
+
+======================
+Qubits: 20
+
+Gate		control		target		phase (degrees)
+CP		12		8		90
+X		-		11
+H		-		16
+X		-		12
+SWAP		6		18
+SWAP		5		18
+SWAP		11		10
+SWAP		14		18
+SWAP		9		17
+H		-		13
+X		-		9
+X		-		1
+H		-		17
+H		-		13
+CP		15		10		90
+X		-		8
+CP		6		17		90
+X		-		3
+SWAP		17		11
+SWAP		16		13
+Random gates: 20, Fidelity: 1
+
+Gate		control		target		phase (degrees)
+CP		9		18		90
+H		-		4
+X		-		15
+CX		7		8
+X		-		3
+SWAP		5		19
+H		-		0
+CX		10		15
+X		-		7
+CP		10		14		90
+H		-		1
+X		-		13
+CP		0		13		90
+SWAP		6		2
+SWAP		11		7
+H		-		11
+SWAP		11		4
+SWAP		16		18
+H		-		13
+CX		17		7
+X		-		10
+SWAP		0		12
+X		-		9
+H		-		18
+CP		1		2		90
+SWAP		7		2
+CX		0		9
+CX		6		2
+H		-		15
+X		-		10
+SWAP		16		5
+X		-		18
+X		-		10
+H		-		7
+H		-		19
+X		-		17
+SWAP		11		13
+H		-		15
+H		-		9
+CX		7		5
+Random gates: 40, Fidelity: 1
+
+Gate		control		target		phase (degrees)
+SWAP		5		8
+CP		17		15		90
+H		-		14
+H		-		10
+CP		2		14		90
+H		-		11
+CP		1		2		90
+SWAP		19		16
+H		-		18
+SWAP		10		8
+CP		0		8		90
+SWAP		13		18
+X		-		0
+SWAP		19		17
+CX		12		15
+CP		14		19		90
+CP		11		7		90
+CP		15		14		90
+SWAP		19		2
+SWAP		4		0
+CP		3		19		90
+X		-		0
+CX		10		2
+H		-		2
+X		-		4
+H		-		14
+X		-		7
+CP		17		6		90
+X		-		10
+X		-		6
+H		-		16
+CX		12		9
+H		-		16
+CP		9		16		90
+SWAP		19		15
+CX		4		14
+SWAP		3		16
+SWAP		14		13
+X		-		18
+SWAP		5		12
+SWAP		12		7
+CP		12		18		90
+CP		16		5		90
+CX		1		11
+CX		5		9
+SWAP		11		1
+CX		0		7
+H		-		2
+SWAP		3		6
+SWAP		7		6
+CP		15		16		90
+SWAP		2		10
+X		-		9
+X		-		13
+SWAP		12		18
+CX		11		9
+SWAP		16		16
+CP		10		3		90
+X		-		17
+CX		4		13
+H		-		8
+SWAP		2		3
+X		-		4
+SWAP		8		18
+X		-		6
+CP		14		8		90
+X		-		7
+H		-		5
+CX		2		14
+CP		10		8		90
+CX		16		5
+X		-		13
+H		-		10
+CP		6		0		90
+SWAP		11		3
+CP		0		14		90
+CP		17		6		90
+CX		0		1
+SWAP		18		5
+SWAP		6		18
+X		-		18
+H		-		7
+CP		14		8		90
+H		-		8
+H		-		2
+SWAP		0		7
+SWAP		17		1
+CX		9		11
+X		-		5
+X		-		10
+SWAP		14		17
+CX		8		16
+CP		12		13		90
+H		-		4
+H		-		18
+SWAP		3		2
+SWAP		0		0
+SWAP		10		18
+CP		5		16		90
+H		-		11
+SWAP		11		3
+SWAP		15		19
+X		-		4
+SWAP		3		2
+CX		10		14
+CX		6		16
+CX		17		5
+CX		6		8
+H		-		5
+X		-		14
+X		-		19
+CP		14		9		90
+CP		3		1		90
+CP		16		5		90
+H		-		5
+CX		14		7
+SWAP		10		0
+CP		18		4		90
+H		-		7
+SWAP		7		10
+SWAP		17		7
+CP		7		19		90
+H		-		19
+H		-		12
+CP		0		5		90
+CP		9		12		90
+SWAP		13		6
+CX		18		17
+CX		19		13
+CP		19		15		90
+H		-		19
+CP		11		19		90
+H		-		11
+X		-		15
+CP		2		13		90
+CP		10		13		90
+CX		8		12
+H		-		17
+CP		6		0		90
+H		-		1
+CX		7		14
+SWAP		0		1
+H		-		2
+SWAP		3		16
+CX		1		11
+CP		12		4		90
+H		-		8
+X		-		7
+CX		4		5
+CX		12		13
+H		-		18
+SWAP		7		15
+X		-		9
+X		-		1
+SWAP		6		6
+SWAP		1		1
+X		-		18
+SWAP		11		18
+CP		19		2		90
+CP		0		10		90
+H		-		1
+H		-		5
+H		-		11
+SWAP		16		9
+H		-		14
+CP		4		0		90
+X		-		13
+H		-		6
+CP		10		0		90
+H		-		1
+X		-		19
+CP		13		3		90
+SWAP		15		2
+CP		0		18		90
+H		-		2
+X		-		0
+X		-		14
+CP		9		8		90
+H		-		14
+CX		4		9
+SWAP		0		10
+X		-		6
+CP		7		1		90
+X		-		7
+CX		7		5
+H		-		4
+CX		10		0
+H		-		3
+SWAP		14		12
+CP		16		19		90
+X		-		10
+CP		14		1		90
+H		-		4
+H		-		15
+X		-		7
+X		-		14
+CP		4		12		90
+CX		18		5
+CX		3		12
+X		-		3
+X		-		5
+X		-		12
+X		-		11
+H		-		15
+SWAP		8		6
+X		-		18
+H		-		6
+X		-		16
+X		-		19
+H		-		10
+X		-		1
+X		-		6
+CX		12		16
+CX		13		12
+CX		19		7
+CX		15		5
+H		-		4
+CX		19		14
+X		-		0
+H		-		18
+CX		0		11
+X		-		5
+X		-		1
+CP		18		17		90
+X		-		18
+CX		14		12
+CP		9		4		90
+CP		5		0		90
+CX		1		14
+X		-		4
+X		-		19
+CP		8		13		90
+SWAP		14		17
+CP		8		10		90
+H		-		18
+CX		5		15
+CX		14		19
+X		-		10
+CX		13		1
+X		-		15
+H		-		17
+H		-		1
+CX		1		8
+CP		7		16		90
+H		-		0
+CX		7		3
+X		-		11
+CP		10		2		90
+X		-		11
+CP		2		10		90
+CP		5		3		90
+CP		3		1		90
+CP		17		8		90
+SWAP		6		12
+X		-		5
+SWAP		7		11
+CX		0		14
+CP		18		12		90
+H		-		5
+X		-		15
+X		-		5
+CX		19		11
+X		-		5
+CX		17		14
+X		-		18
+H		-		7
+SWAP		3		11
+CX		8		5
+CX		9		2
+CX		19		13
+X		-		4
+CP		11		12		90
+X		-		0
+CX		8		19
+CX		19		11
+CX		19		8
+H		-		0
+CX		19		10
+CP		9		7		90
+CP		18		12		90
+X		-		10
+CP		1		10		90
+X		-		4
+CP		8		18		90
+CX		3		14
+SWAP		11		9
+CX		2		11
+H		-		13
+CX		3		11
+SWAP		10		2
+SWAP		10		18
+H		-		0
+CX		6		11
+H		-		19
+SWAP		4		13
+X		-		8
+CP		5		2		90
+CP		0		7		90
+X		-		8
+CP		1		4		90
+SWAP		1		9
+CP		14		3		90
+CP		13		19		90
+SWAP		15		11
+SWAP		12		6
+CP		16		15		90
+SWAP		10		6
+CX		4		3
+H		-		6
+CX		9		18
+X		-		16
+CX		17		18
+SWAP		0		6
+SWAP		13		0
+CP		0		18		90
+SWAP		1		5
+H		-		18
+SWAP		18		6
+CP		17		18		90
+SWAP		5		2
+CP		4		17		90
+CX		19		17
+H		-		8
+H		-		14
+SWAP		18		7
+CX		13		11
+CX		10		15
+X		-		4
+CP		13		6		90
+CX		3		10
+SWAP		3		5
+CX		6		13
+X		-		6
+CP		16		3		90
+H		-		18
+CX		9		3
+CX		15		1
+X		-		8
+CP		1		7		90
+CP		7		9		90
+CP		19		8		90
+CX		7		4
+X		-		15
+H		-		14
+X		-		0
+CP		19		1		90
+H		-		14
+CX		15		18
+CP		3		7		90
+H		-		10
+CX		8		12
+CX		7		8
+CX		3		16
+CX		4		16
+H		-		10
+X		-		2
+H		-		3
+SWAP		16		15
+CX		14		17
+SWAP		15		3
+X		-		14
+SWAP		2		12
+X		-		0
+X		-		2
+CP		19		11		90
+SWAP		9		15
+H		-		6
+X		-		15
+X		-		9
+H		-		18
+X		-		6
+SWAP		11		14
+X		-		10
+CP		17		15		90
+CP		15		6		90
+CX		5		13
+H		-		14
+SWAP		16		19
+X		-		19
+H		-		18
+H		-		14
+SWAP		5		4
+CX		13		10
+CX		17		1
+CX		15		17
+H		-		1
+CP		11		2		90
+CX		0		19
+CX		19		7
+CP		15		12		90
+SWAP		2		10
+H		-		1
+SWAP		11		12
+CX		18		13
+X		-		6
+SWAP		1		19
+CP		0		14		90
+X		-		12
+H		-		0
+CP		18		4		90
+Random gates: 400, Fidelity: 1
+
+QFT, Fidelity: 0.99995
+
+GHZ, Fidelity: 1
+
+======================
+
+======================
+Qubits: 25
+
+Gate		control		target		phase (degrees)
+CP		12		8		90
+X		-		11
+H		-		16
+X		-		12
+SWAP		6		18
+SWAP		5		18
+SWAP		11		10
+SWAP		14		18
+SWAP		23		23
+X		-		17
+H		-		22
+X		-		9
+X		-		1
+H		-		17
+H		-		24
+CP		15		10		90
+X		-		8
+CP		6		21		90
+X		-		3
+SWAP		24		17
+CP		12		20		90
+H		-		13
+CP		9		18		90
+H		-		4
+X		-		15
+Random gates: 25, Fidelity: 1
+
+Gate		control		target		phase (degrees)
+CX		23		7
+CX		8		22
+X		-		3
+SWAP		5		19
+H		-		0
+CX		10		23
+X		-		7
+CP		10		14		90
+H		-		24
+X		-		17
+CP		0		24		90
+SWAP		21		6
+CX		12		21
+CP		7		13		90
+H		-		11
+SWAP		11		20
+SWAP		7		13
+SWAP		16		18
+H		-		13
+CX		23		17
+X		-		24
+CX		20		0
+SWAP		1		9
+H		-		18
+CP		1		2		90
+SWAP		7		2
+CX		22		0
+X		-		18
+CX		7		16
+X		-		10
+SWAP		22		16
+X		-		18
+X		-		21
+SWAP		10		0
+H		-		21
+H		-		19
+X		-		17
+SWAP		20		11
+H		-		15
+H		-		9
+CX		7		21
+SWAP		5		24
+H		-		13
+CP		17		15		90
+H		-		14
+H		-		10
+CP		20		2		90
+H		-		11
+CP		21		1		90
+CX		20		19
+Random gates: 50, Fidelity: 1
+
+Gate		control		target		phase (degrees)
+H		-		22
+H		-		23
+CX		10		8
+CP		0		8		90
+SWAP		13		18
+X		-		0
+SWAP		19		24
+X		-		10
+SWAP		12		15
+CP		14		19		90
+CP		11		22		90
+CP		21		15		90
+SWAP		19		2
+SWAP		4		0
+CP		3		24		90
+CP		5		6		90
+X		-		23
+H		-		10
+CX		2		24
+CX		17		4
+H		-		20
+X		-		7
+CP		17		22		90
+X		-		10
+X		-		6
+H		-		16
+CX		12		9
+H		-		22
+H		-		19
+X		-		16
+SWAP		19		15
+CX		4		23
+SWAP		3		24
+H		-		16
+SWAP		14		13
+X		-		21
+SWAP		21		18
+SWAP		5		22
+CP		22		12		90
+SWAP		24		12
+CP		12		18		90
+CP		16		5		90
+CX		1		11
+CX		24		5
+X		-		20
+X		-		11
+X		-		18
+H		-		20
+H		-		22
+CX		20		3
+SWAP		7		6
+CP		15		16		90
+SWAP		23		22
+CX		10		21
+X		-		9
+X		-		24
+SWAP		12		18
+CX		11		9
+SWAP		16		16
+CP		10		20		90
+X		-		3
+X		-		17
+CX		21		4
+H		-		8
+SWAP		2		3
+X		-		4
+SWAP		8		18
+X		-		6
+CP		14		8		90
+X		-		7
+H		-		5
+CX		2		14
+CP		10		8		90
+CX		16		5
+X		-		13
+H		-		10
+CP		22		6		90
+H		-		14
+SWAP		23		11
+CP		0		14		90
+CP		17		6		90
+CX		0		22
+X		-		6
+SWAP		18		5
+SWAP		6		18
+X		-		18
+H		-		7
+CP		14		8		90
+H		-		8
+H		-		23
+CX		0		7
+SWAP		17		1
+CX		9		11
+X		-		5
+X		-		10
+SWAP		24		14
+CX		21		17
+CX		8		16
+CP		12		13		90
+H		-		4
+H		-		22
+CP		18		4		90
+CP		12		2		90
+SWAP		0		0
+SWAP		10		18
+CP		5		16		90
+H		-		11
+SWAP		11		3
+SWAP		24		15
+CP		13		1		90
+SWAP		7		3
+CX		2		10
+CX		6		16
+CX		17		5
+CX		6		21
+H		-		8
+X		-		14
+X		-		19
+CP		14		9		90
+CP		3		22		90
+X		-		3
+H		-		5
+H		-		5
+CX		14		7
+SWAP		20		10
+H		-		14
+CP		18		4		90
+H		-		7
+SWAP		22		23
+CX		10		12
+X		-		7
+CP		7		19		90
+H		-		19
+H		-		12
+CP		0		22		90
+CP		9		22		90
+SWAP		20		13
+CX		18		20
+CX		17		2
+CP		13		11		90
+CP		22		15		90
+H		-		19
+CP		11		19		90
+H		-		22
+CP		5		1		90
+CP		2		22		90
+CP		10		22		90
+CX		8		12
+H		-		17
+CP		24		6		90
+H		-		16
+X		-		18
+SWAP		14		4
+CX		0		1
+H		-		24
+CX		21		4
+CP		16		22		90
+CX		1		11
+CP		20		12		90
+SWAP		13		0
+X		-		8
+X		-		7
+CX		4		5
+CX		12		13
+H		-		21
+CX		7		15
+X		-		9
+X		-		1
+SWAP		6		21
+CP		6		20		90
+X		-		1
+X		-		18
+SWAP		11		18
+CP		19		2		90
+CP		0		10		90
+H		-		1
+H		-		5
+H		-		11
+SWAP		24		16
+H		-		0
+X		-		24
+X		-		14
+CP		4		0		90
+X		-		13
+H		-		6
+CP		10		0		90
+H		-		1
+X		-		19
+CP		13		3		90
+SWAP		15		2
+CP		0		18		90
+H		-		2
+X		-		0
+X		-		14
+CP		9		20		90
+H		-		8
+H		-		14
+CX		24		22
+SWAP		9		0
+CX		21		10
+X		-		23
+CP		7		1		90
+X		-		7
+CX		7		5
+H		-		23
+SWAP		4		2
+CX		20		0
+H		-		3
+SWAP		14		12
+CP		21		16		90
+CP		22		5		90
+X		-		10
+CP		14		1		90
+H		-		4
+H		-		15
+X		-		7
+X		-		14
+CP		21		4		90
+SWAP		21		22
+CX		18		5
+CX		3		12
+X		-		3
+X		-		5
+X		-		12
+X		-		11
+H		-		15
+SWAP		8		6
+X		-		18
+H		-		20
+SWAP		6		1
+H		-		20
+X		-		19
+H		-		10
+X		-		1
+X		-		6
+CX		12		16
+CX		13		24
+SWAP		19		7
+CX		15		5
+H		-		4
+CX		19		14
+X		-		0
+H		-		18
+CX		0		11
+X		-		5
+X		-		1
+CP		18		17		90
+X		-		18
+CX		14		12
+CP		9		4		90
+CP		5		0		90
+CX		1		20
+X		-		4
+X		-		19
+CP		24		8		90
+SWAP		14		17
+CP		8		10		90
+H		-		18
+CX		5		15
+CX		14		21
+CP		21		9		90
+CX		13		18
+SWAP		1		22
+X		-		15
+H		-		17
+H		-		1
+CX		22		1
+H		-		19
+H		-		23
+H		-		0
+CX		7		3
+X		-		11
+CP		10		2		90
+X		-		11
+CP		2		10		90
+CP		5		3		90
+CP		3		22		90
+X		-		13
+CP		24		17		90
+H		-		6
+SWAP		6		12
+X		-		5
+SWAP		7		11
+CX		0		14
+CP		18		12		90
+H		-		5
+X		-		20
+X		-		20
+CX		19		11
+X		-		5
+CX		17		14
+X		-		18
+H		-		7
+SWAP		20		3
+CP		2		23		90
+H		-		5
+CX		20		9
+CX		2		19
+X		-		22
+SWAP		11		11
+SWAP		0		18
+H		-		19
+CX		23		19
+X		-		11
+CX		19		8
+H		-		0
+CX		22		24
+CP		22		10		90
+CP		20		9		90
+CP		18		12		90
+X		-		10
+CP		1		21		90
+CX		6		9
+SWAP		22		23
+CP		8		21		90
+CX		10		21
+CP		14		20		90
+CP		21		9		90
+CX		2		20
+CP		16		13		90
+CX		3		11
+SWAP		10		21
+CX		12		10
+SWAP		18		8
+H		-		13
+CX		6		20
+CP		24		20		90
+CP		12		4		90
+X		-		8
+CP		5		2		90
+CP		0		7		90
+X		-		8
+CP		1		4		90
+SWAP		1		22
+X		-		3
+SWAP		3		23
+CP		13		24		90
+CX		19		4
+CP		4		12		90
+SWAP		6		19
+H		-		15
+SWAP		10		6
+CX		4		3
+H		-		6
+CX		9		18
+X		-		16
+CX		17		18
+SWAP		22		0
+SWAP		13		0
+CP		0		18		90
+SWAP		1		5
+H		-		18
+SWAP		18		6
+CP		21		17		90
+CX		23		6
+SWAP		5		2
+CP		23		4		90
+X		-		21
+CX		24		19
+CX		17		0
+H		-		8
+SWAP		14		4
+CX		22		24
+CX		23		13
+CP		10		24		90
+H		-		15
+X		-		4
+CP		13		6		90
+CX		3		10
+SWAP		3		5
+CX		6		13
+X		-		6
+CP		16		20		90
+CP		7		6		90
+H		-		18
+CX		9		3
+CX		21		15
+X		-		7
+X		-		8
+CP		1		7		90
+CP		7		9		90
+CP		19		8		90
+CX		7		4
+X		-		15
+H		-		14
+X		-		21
+H		-		19
+CP		21		1		90
+H		-		14
+CX		21		15
+CX		3		7
+H		-		23
+CX		10		8
+SWAP		18		7
+H		-		23
+CX		3		23
+H		-		10
+SWAP		16		15
+H		-		10
+X		-		20
+CX		13		15
+H		-		3
+SWAP		16		23
+CX		14		23
+X		-		24
+X		-		20
+H		-		15
+CP		9		14		90
+SWAP		2		12
+X		-		0
+X		-		2
+CP		24		19		90
+CP		9		15		90
+H		-		6
+X		-		15
+X		-		9
+H		-		18
+X		-		6
+SWAP		11		20
+X		-		10
+CP		17		15		90
+CP		15		6		90
+CX		5		20
+X		-		22
+H		-		14
+SWAP		16		19
+X		-		19
+H		-		18
+H		-		23
+SWAP		14		6
+SWAP		23		21
+SWAP		23		14
+CX		13		10
+CX		24		17
+X		-		13
+CX		21		15
+X		-		24
+X		-		11
+CP		2		0		90
+CX		19		20
+CP		15		12		90
+SWAP		2		23
+CX		15		21
+H		-		23
+X		-		20
+CP		12		15		90
+CX		18		13
+X		-		20
+SWAP		23		6
+SWAP		1		19
+CP		0		14		90
+X		-		20
+SWAP		16		13
+CP		18		4		90
+CX		13		24
+CP		1		10		90
+H		-		5
+CX		12		23
+X		-		10
+SWAP		14		24
+SWAP		18		17
+CP		15		17		90
+SWAP		7		0
+CX		19		4
+H		-		13
+SWAP		20		20
+SWAP		2		18
+SWAP		12		3
+H		-		18
+CP		5		1		90
+H		-		9
+CP		24		6		90
+CP		12		11		90
+H		-		24
+H		-		20
+H		-		24
+CP		19		10		90
+X		-		18
+SWAP		10		7
+SWAP		19		0
+CP		19		15		90
+CP		17		2		90
+H		-		19
+SWAP		23		21
+H		-		0
+SWAP		1		13
+SWAP		10		12
+H		-		14
+SWAP		11		8
+H		-		16
+H		-		13
+X		-		3
+X		-		7
+X		-		16
+CP		15		1		90
+X		-		3
+X		-		19
+CX		22		1
+CP		14		7		90
+H		-		3
+CP		24		0		90
+X		-		21
+SWAP		3		4
+SWAP		0		8
+H		-		15
+CP		7		24		90
+CX		14		19
+CX		14		10
+CP		17		15		90
+X		-		4
+X		-		4
+H		-		22
+CP		21		16		90
+H		-		6
+H		-		22
+CX		4		0
+SWAP		12		5
+SWAP		9		18
+H		-		18
+CP		6		8		90
+CX		17		3
+X		-		15
+CX		2		19
+X		-		18
+CX		18		17
+X		-		5
+SWAP		8		20
+CX		15		19
+H		-		5
+H		-		18
+X		-		4
+H		-		15
+H		-		19
+CP		20		9		90
+H		-		0
+H		-		16
+CX		16		24
+X		-		9
+H		-		12
+H		-		8
+X		-		19
+X		-		18
+CP		2		17		90
+H		-		6
+CX		1		12
+X		-		6
+SWAP		3		0
+SWAP		14		23
+CP		2		20		90
+CP		20		9		90
+SWAP		14		24
+X		-		22
+CX		4		21
+CP		23		12		90
+X		-		13
+X		-		20
+CX		8		7
+SWAP		0		20
+X		-		9
+H		-		22
+X		-		1
+H		-		3
+SWAP		11		7
+CX		18		22
+X		-		2
+CX		17		21
+CP		21		18		90
+CP		11		19		90
+CP		19		0		90
+CP		17		0		90
+SWAP		3		5
+CP		5		9		90
+CX		0		6
+CX		23		8
+CX		8		5
+H		-		15
+H		-		10
+CX		10		8
+X		-		4
+X		-		18
+X		-		22
+H		-		22
+X		-		16
+X		-		19
+CX		21		4
+CP		20		2		90
+X		-		3
+CX		24		13
+CX		11		20
+CX		21		17
+CX		2		21
+CP		3		19		90
+SWAP		2		10
+H		-		11
+X		-		22
+SWAP		14		20
+H		-		11
+CP		8		23		90
+X		-		19
+SWAP		20		0
+CX		19		20
+CX		16		10
+SWAP		14		15
+CX		5		24
+H		-		8
+SWAP		6		19
+SWAP		20		21
+X		-		4
+SWAP		21		18
+SWAP		16		14
+CP		24		12		90
+CP		7		14		90
+H		-		3
+CP		21		8		90
+CX		1		14
+SWAP		3		2
+H		-		15
+X		-		13
+CX		16		15
+CX		12		1
+H		-		3
+X		-		0
+CX		3		21
+CX		10		5
+X		-		4
+Random gates: 625, Fidelity: 1
+
+QFT, Fidelity: 0.99995
+
+GHZ, Fidelity: 1
+
+======================

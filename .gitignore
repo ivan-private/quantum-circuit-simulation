@@ -1,3 +1,8 @@
+# do not commit
+c++/tests/dev.ipynb
+c++/quantum_circuit_v4.py
+scripts
+
 .DS_store
 .idea
 

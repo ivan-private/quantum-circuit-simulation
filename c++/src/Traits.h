@@ -3,6 +3,7 @@
 #include <concepts>
 #include <complex>
 
+#include "Polar.h"
 
 namespace traits 
 {
@@ -55,7 +56,7 @@ namespace traits
         x.ghz();
 
 
-        { x.get_statevector() } -> std::convertible_to<std::vector<std::complex<double>>>; 
+        { x.get_statevector() } -> std::convertible_to<std::vector<Polar>>; 
         x.reset_statevector();
 
         { x.num_qubits() } -> std::convertible_to<unsigned>;

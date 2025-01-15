@@ -10,6 +10,7 @@
 #include <algorithm>
 
 #include "Traits.h"
+#include "Polar.h"
 
 
 template<traits::ComplexNumber ComplexType>
@@ -17,7 +18,7 @@ class QuantumCircuit
 {
 public:
 
-    QuantumCircuit(uint8_t n_qubits) 
+    QuantumCircuit(int n_qubits) 
         : n_qubits(n_qubits), 
         n_states(1 << n_qubits),
         statevector(n_states)
@@ -29,28 +30,28 @@ public:
 
     QuantumCircuit(QuantumCircuit&& other) noexcept = default;
 
-    void h(uint8_t qubits);
+    void h(int qubit);
 
-    void x(uint8_t qubit);
+    void x(int qubit);
 
-    void cx(uint8_t control_qubit, uint8_t target_qubit);
+    void cx(int control_qubit, int target_qubit);
 
-    void cp(double angle, uint8_t target_qubit, uint8_t control_qubit);
+    void cp(double angle, int target_qubit, int control_qubit);
 
-    void swap(uint8_t qubit1, uint8_t qubit2);
+    void swap(int qubit1, int qubit2);
 
     void qft();
 
     void ghz();
 
-    std::vector<std::complex<double>> get_statevector() const;
+    std::vector<Polar> get_statevector() const;
 
-    inline uint8_t num_qubits() const noexcept { return n_qubits; }
+    inline int num_qubits() const noexcept { return n_qubits; }
 
     void reset_statevector();
 
 private:
-    uint8_t n_qubits; // max 255 qubits in the system
+    int n_qubits; 
     size_t n_states; // 2^{64} different states in the system, so max 64 qubits
     std::vector<ComplexType> statevector;
 };
@@ -58,7 +59,7 @@ private:
 
 template<traits::ComplexNumber ComplexType>
 void 
-QuantumCircuit<ComplexType>::h(uint8_t qubit)  
+QuantumCircuit<ComplexType>::h(int qubit)  
 {
     const ComplexType scale(std::complex<double>(1.0 / std::numbers::sqrt2, 0.0));
     
@@ -85,7 +86,7 @@ QuantumCircuit<ComplexType>::h(uint8_t qubit)
 
 template<traits::ComplexNumber ComplexType>
 void
-QuantumCircuit<ComplexType>::x(uint8_t qubit)
+QuantumCircuit<ComplexType>::x(int qubit)
 {
     const size_t mask = 1 << qubit;
     size_t adjoint_state;
@@ -103,12 +104,10 @@ QuantumCircuit<ComplexType>::x(uint8_t qubit)
 
 template<traits::ComplexNumber ComplexType>
 void
-QuantumCircuit<ComplexType>::cx(uint8_t control_qubit, uint8_t target_qubit)
+QuantumCircuit<ComplexType>::cx(int control_qubit, int target_qubit)
 {
     const size_t target_mask = 1 << target_qubit;
     const size_t control_mask = 1 << control_qubit;
-
-    size_t adjoint_state;
 
     for (size_t state = 0; state < n_states; state++)
     {
@@ -116,7 +115,7 @@ QuantumCircuit<ComplexType>::cx(uint8_t control_qubit, uint8_t target_qubit)
         control_qubit = state & control_mask;
         if (control_qubit && target_qubit)
         {
-            adjoint_state = state ^ target_mask;
+            const size_t adjoint_state = state ^ target_mask;
             std::swap(statevector[state], statevector[adjoint_state]);
         }
     }  
@@ -125,7 +124,7 @@ QuantumCircuit<ComplexType>::cx(uint8_t control_qubit, uint8_t target_qubit)
 
 template<traits::ComplexNumber ComplexType>
 void 
-QuantumCircuit<ComplexType>::cp(double angle, uint8_t control_qubit, uint8_t target_qubit) 
+QuantumCircuit<ComplexType>::cp(double angle, int control_qubit, int target_qubit) 
 {
     const size_t target_mask = 1 << target_qubit;
     const size_t control_mask = 1 << control_qubit;
@@ -150,19 +149,16 @@ QuantumCircuit<ComplexType>::cp(double angle, uint8_t control_qubit, uint8_t tar
 
 template<traits::ComplexNumber ComplexType>
 void 
-QuantumCircuit<ComplexType>::swap(uint8_t qubit1, uint8_t qubit2) 
+QuantumCircuit<ComplexType>::swap(int qubit1, int qubit2) 
 {
-    uint8_t q1_state, q2_state, xor_result;
-    size_t adjoint_state;
-
     for (size_t state = 0; state < n_states; state++)
     {
-        q1_state = (state >> qubit1) & 1;
-        q2_state = (state >> qubit2) & 1;
+        const uint8_t q1_state = (state >> qubit1) & 1;
+        const uint8_t q2_state = (state >> qubit2) & 1;
         if (!q1_state && q2_state)
         {
-            xor_result = (q1_state ^ q2_state) & 1;
-            adjoint_state = state ^ ((xor_result << qubit1) | (xor_result << qubit2));
+            const uint8_t xor_result = (q1_state ^ q2_state) & 1;
+            const size_t adjoint_state = state ^ ((xor_result << qubit1) | (xor_result << qubit2));
             std::swap(statevector[state], statevector[adjoint_state]);
         }
     }
@@ -205,15 +201,15 @@ QuantumCircuit<ComplexType>::ghz()
 
 
 template<traits::ComplexNumber ComplexType>
-std::vector<std::complex<double>>
+std::vector<Polar>
 QuantumCircuit<ComplexType>::get_statevector() const
 {
     assert(statevector.size() == n_states);
-    std::vector<std::complex<double>> statevector_copy(n_states);
+    std::vector<Polar> statevector_copy(n_states);
     std::transform(
         statevector.cbegin(), statevector.cend(), 
         statevector_copy.begin(), 
-        [](const ComplexType& z){ return static_cast<std::complex<double>>(z); }
+        [](const ComplexType& z){ return static_cast<Polar>(z); }
     );
     return statevector_copy;
 }
