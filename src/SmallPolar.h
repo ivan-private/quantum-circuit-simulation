@@ -178,7 +178,7 @@ private:
     {
         if (r == MAX_VAL_R) return 0.0;
 
-        return std::pow(EXP_BASE_R, static_cast<double>(r)); 
+        return std::pow(EXP_BASE_R, static_cast<double>(r));
     }
 
 

@@ -59,7 +59,7 @@ namespace traits
         { x.get_statevector() } -> std::convertible_to<std::vector<Polar>>; 
         x.reset_statevector();
 
-        { x.num_qubits() } -> std::convertible_to<unsigned>;
+        { x.num_qubits() } -> std::convertible_to<int>;
     };
 
 } // namespace traits

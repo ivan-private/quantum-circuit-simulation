@@ -7,9 +7,14 @@
 __pycache__
 .pytest_cache
 
+# Results dir, might change to include it later 
+results
+
+# My scripts for using Cmake and running the executable 
+scripts
+
 # Build dir
 build
-
 
 # Prerequisites
 *.d

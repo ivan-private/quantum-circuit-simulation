@@ -176,7 +176,6 @@ QuantumCircuit<ComplexType>::qft()
         h(i);
         for (int j = i-1; j >= 0; j--)
         {   
-            // TODO: double check if this is the correct order of target / control qubit
             cp(pi * std::pow(2, j-i), j, i); 
         }
     }

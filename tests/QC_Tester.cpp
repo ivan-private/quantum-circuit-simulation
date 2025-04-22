@@ -7,46 +7,66 @@
 #include <complex>
 #include <algorithm>
 #include <numeric>
+#include <functional>
 
 #include "QuantumCircuit.h"
 #include "Traits.h"
 #include "Polar.h"
 #include "SmallPolar.h"
+#include "Utils.h"
 
 
-
-
-template<traits::ComplexNumber ComplexType>
-double 
-fidelity(const QuantumCircuit<std::complex<double>>& actual_qc, const QuantumCircuit<ComplexType>& qc) 
+template<traits::PolarCoordinate PolarToTest>
+std::string type_str()
 {
-    std::complex<double> inner_product = 0.0;
-    auto sv1 = actual_qc.get_statevector();
-    auto sv2 = qc.get_statevector();
-
-    assert (sv1.size() == sv2.size());
+    if (std::is_same_v<PolarToTest, OneBytePolar>)
+        return "OneBytePolar";
     
-    for (size_t i = 0; i < sv1.size(); ++i) 
-    {
-        std::complex<double> z1 = static_cast<std::complex<double>>(sv1[i]);
-        std::complex<double> z2 = static_cast<std::complex<double>>(sv2[i]);
-        inner_product += z1 * std::conj(z2);
-    }
-
-    return std::norm(inner_product); 
+    else if (std::is_same_v<PolarToTest, TwoBytePolar>)
+        return "TwoBytePolar";
+    
+    else 
+        throw std::logic_error("Test for given type not implemented.");
 }
 
 
+template<traits::PolarCoordinate PolarToTest>
+std::string statevector_filename(int qubits, const std::string& circuit)
+{
+    return "results/data/" + type_str<PolarToTest>() + "/statevectors/" + std::to_string(qubits) + "_qubits_" + circuit + ".csv";
+}
 
-int main()
-{    
-    static_assert(sizeof(SmallPolar<4, 4>) == 1);
-    static_assert(sizeof(SmallPolar<8, 8>) == 2);
 
-    // using PolarToTest = SmallPolar<4, 4>;
-    using PolarToTest = SmallPolar<8, 8>;
+template<traits::PolarCoordinate PolarToTest>
+std::string statevector_error_filename(const std::string& circuit)
+{
+    return "results/data/" + type_str<PolarToTest>() + "/" + circuit + "_statevector_error.csv";
+}
 
-    for (int n : {3, 5, 10, 15, 20, 25})
+
+template<traits::PolarCoordinate PolarToTest>
+void save_results(const std::string& circuit, const QuantumCircuit<std::complex<double>>& actual_qc, const QuantumCircuit<PolarToTest>& qc)
+{
+    std::string filename = statevector_filename<PolarToTest>(actual_qc.num_qubits(), circuit);
+    utils::statevector_comparision_as_csv(filename, actual_qc, qc);
+
+    filename = statevector_error_filename<PolarToTest>(circuit);
+    utils::fidelity_and_error_as_csv(filename, actual_qc, qc);
+}
+
+
+template<traits::PolarCoordinate PolarToTest>
+void run_test()
+{
+    std::mt19937 rng;
+    rng.seed(7);
+
+    std::uniform_int_distribution<int> random_gate(0, 4);
+
+    const double phase = M_PI / 2;
+
+    // 5, 10, 15, 20, 25
+    for (int n : {3, 4, 5})
     {
         std::cout << "\n======================\n";
         std::cout <<"Qubits: " << n << '\n';
@@ -54,14 +74,8 @@ int main()
         QuantumCircuit<PolarToTest> qc(n);
         QuantumCircuit<std::complex<double>> actual_qc(n);
 
-        std::mt19937 rng;
-        rng.seed(1);
-
         std::uniform_int_distribution<int> random_qubit(0, n-1);
 
-        std::uniform_int_distribution<int> random_gate(0, 4);
-
-        const double phase = M_PI / 2;
 
         auto random_qubit_not_same = [&random_qubit, &rng] (int control_qubit) 
         {
@@ -70,7 +84,7 @@ int main()
             return q;
         };
 
-        for (int num_random_gates : {n, 2*n, n*n})
+        for (int num_random_gates : {100})
         {
             int qubit, qubit1, qubit2, control_qubit, target_qubit;
             
@@ -123,13 +137,14 @@ int main()
                     //     std::cout << "random_gate generated a number which does not correspond to a gate";
                     //     exit(1);
                 }
-
-                actual_qc.reset_statevector();
-                qc.reset_statevector();
             }
 
+            save_results<PolarToTest>(std::to_string(num_random_gates) + "_random_gates", actual_qc, qc);
+
+            actual_qc.reset_statevector();
+            qc.reset_statevector();
             std::cout   << "Random gates: " << num_random_gates
-                        << ", Fidelity: " << fidelity(actual_qc, qc) << "\n";
+                        << ", Fidelity: " << utils::fidelity(actual_qc, qc) << "\n";
         }
 
 
@@ -139,7 +154,9 @@ int main()
         actual_qc.qft();
         qc.qft();
 
-        std::cout << "\nQFT, " << "Fidelity: " << fidelity(actual_qc, qc) << "\n";
+        save_results<PolarToTest>("QFT", actual_qc, qc);
+
+        std::cout << "\nQFT, " << "Fidelity: " << utils::fidelity(actual_qc, qc) << "\n";
 
         actual_qc.reset_statevector();
         qc.reset_statevector();
@@ -149,7 +166,9 @@ int main()
         actual_qc.ghz();
         qc.ghz();
 
-        std::cout << "\nGHZ, " << "Fidelity: " << fidelity(actual_qc, qc) << "\n";
+        save_results<PolarToTest>("GHZ", actual_qc, qc);
+
+        std::cout << "\nGHZ, " << "Fidelity: " << utils::fidelity(actual_qc, qc) << "\n";
 
         actual_qc.reset_statevector();
         qc.reset_statevector();
@@ -157,5 +176,19 @@ int main()
 
         std::cout << "\n======================\n";
     }
+}
+
+
+
+int main()
+{    
+    static_assert(sizeof(SmallPolar<4, 4>) == 1);
+    static_assert(sizeof(SmallPolar<8, 8>) == 2);
+    static_assert(sizeof(OneBytePolar) == 1);
+    static_assert(sizeof(TwoBytePolar) == 2);
+
+    run_test<OneBytePolar>();
+    run_test<TwoBytePolar>();
+
 }
 
